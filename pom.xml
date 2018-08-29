@@ -31,6 +31,11 @@
               <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         
+        <dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-tomcat</artifactId>
+		</dependency>
+        
          <!-- JPA Data (We are going to use Repositories, Entities, Hibernate, etc...) -->
         
         <dependency>
@@ -56,18 +61,25 @@
 		    <version>2.7.0</version>
 		</dependency>
 		
-		<!--  <dependency>
+		<!-- <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>sqljdbc4</artifactId>
             <version>4.0</version>
          </dependency> -->
 		
-		<dependency>
+		<!-- <dependency>
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
 		    <scope>runtime</scope>
+		</dependency> -->
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>sqljdbc4</artifactId>
+			<version>4.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/sqljdbc4.jar</systemPath>
 		</dependency>
-		
+				
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-actuator</artifactId>
@@ -79,6 +91,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+                <includeSystemScope>true</includeSystemScope>
+            </configuration>
 			</plugin>
 		</plugins>
 	</build>

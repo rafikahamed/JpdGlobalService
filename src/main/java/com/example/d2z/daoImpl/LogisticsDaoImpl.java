@@ -73,14 +73,14 @@ public class LogisticsDaoImpl implements LogisticsDao{
 		
 		if(userData.getAccess_level().equalsIgnoreCase("level 1")) {
 			User userDetails = new User();
-			userDetails.setAccess_level(userData.getAccess_level());
-			userDetails.setLegal_name(userData.getLegalName());
-			userDetails.setAuthorized_contact(userData.getAuthrorizedConatct());
-			userDetails.setEmail_addr(userData.getEmail_addr());
-			userDetails.setPhone_number(userData.getPhoneNumber());
+			userDetails.setAccessLevel(userData.getAccess_level());
+			userDetails.setLegalName(userData.getLegalName());
+			userDetails.setAuthorizedContact(userData.getAuthrorizedConatct());
+			userDetails.setEmailAddr(userData.getEmail_addr());
+			userDetails.setPhoneNumber(userData.getPhoneNumber());
 			userDetails.setUsername(userData.getUsername());
-			userDetails.setMgr_username(userData.getUsername());
-			userDetails.setPass_word(userData.getPass_word());
+			userDetails.setMgrUsername(userData.getUsername());
+			userDetails.setPassWord(userData.getPass_word());
 			userRepository.save(userDetails);
 			message =  "Data Saved Successfully";
 		}
@@ -99,7 +99,7 @@ public class LogisticsDaoImpl implements LogisticsDao{
 		Date arrivalDate = null;
 		for(FileDetails fileDataValue: fileData) {
 			DataConsole fileObj = new DataConsole();
-			fileObj.setAmount(BigDecimal.valueOf(fileDataValue.getAmount()).toBigInteger());
+			fileObj.setAmount(BigDecimal.valueOf(fileDataValue.getAmount()));
 			try {
 				arrivalDate = formatter.parse(fileDataValue.getArrival_date());
 			} catch (ParseException e) {
@@ -107,8 +107,8 @@ public class LogisticsDaoImpl implements LogisticsDao{
 			}
 			fileObj.setSaleDate(arrivalDate);
 			fileObj.setCurrencyCode(fileDataValue.getCurrency_code());
-			fileObj.setGST_eligible(fileDataValue.getGST_eligible());
-			fileObj.setGST_payable(BigDecimal.valueOf(fileDataValue.getGST_payable()));
+			fileObj.setGstEligible(fileDataValue.getGST_eligible());
+			fileObj.setGstPayable(BigDecimal.valueOf(fileDataValue.getGST_payable()));
 			fileObj.setReferenceNo(fileDataValue.getReference_no());
 			fileObj.setReportIndicator(fileDataValue.getReport_indicator());
 			fileObj.setTxnDate(new Date());
@@ -116,7 +116,7 @@ public class LogisticsDaoImpl implements LogisticsDao{
 			fileObj.setUserCode(fileDataValue.getUser_code());
 			fileObj.setUsername(fileDataValue.getUsername());
 			fileObj.setFileName(fileDataValue.getFileName());
-			fileObj.setAudConvertedAmount(fileDataValue.getAud_converted_value());
+			fileObj.setAudConvertedAmount(BigDecimal.valueOf(fileDataValue.getAud_converted_value()));
 			fileObjList.add(fileObj);
 		}
 		fileRepository.saveAll(fileObjList);
@@ -145,7 +145,7 @@ public class LogisticsDaoImpl implements LogisticsDao{
 		Date arrivalDate = null;
 		for(FileDetails fileDataValue: fileData) {
 			DataConsole fileObj = new DataConsole();
-			fileObj.setAmount(BigDecimal.valueOf(fileDataValue.getAmount()).toBigInteger());
+			fileObj.setAmount(BigDecimal.valueOf(fileDataValue.getAmount()));
 			try {
 				arrivalDate = formatter.parse(fileDataValue.getArrival_date());
 			} catch (ParseException e) {
@@ -153,8 +153,8 @@ public class LogisticsDaoImpl implements LogisticsDao{
 			}
 			fileObj.setSaleDate(arrivalDate);
 			fileObj.setCurrencyCode(fileDataValue.getCurrency_code());
-			fileObj.setGST_eligible(fileDataValue.getGST_eligible());
-			fileObj.setGST_payable(BigDecimal.valueOf(fileDataValue.getGST_payable()));
+			fileObj.setGstEligible(fileDataValue.getGST_eligible());
+			fileObj.setGstPayable(BigDecimal.valueOf(fileDataValue.getGST_payable()));
 			fileObj.setReferenceNo(fileDataValue.getReference_no());
 			fileObj.setReportIndicator(fileDataValue.getReport_indicator());
 			fileObj.setTxnDate(new Date());
@@ -162,7 +162,7 @@ public class LogisticsDaoImpl implements LogisticsDao{
 			fileObj.setUserCode(fileDataValue.getUser_code());
 			fileObj.setUsername(fileDataValue.getUsername());
 			fileObj.setFileName(fileDataValue.getFileName());
-			fileObj.setAudConvertedAmount(fileDataValue.getAud_converted_value());
+			fileObj.setAudConvertedAmount(BigDecimal.valueOf(fileDataValue.getAud_converted_value()));
 			fileObjList.add(fileObj);
 		}
 		fileRepository.saveAll(fileObjList);
@@ -255,7 +255,7 @@ public class LogisticsDaoImpl implements LogisticsDao{
 		List<Currency> currencyObjList = new ArrayList<Currency>();
 		for(CurrencyDetails currencyValue: currencyList) {
 			Currency currencyObj = new Currency();
-			currencyObj.setAUD_currency_rate(currencyValue.getAudCurrencyRate().doubleValue());
+			currencyObj.setAudCurrencyRate(currencyValue.getAudCurrencyRate().doubleValue());
 			currencyObj.setCountry(currencyValue.getCountry());
 			currencyObj.setCurrencyCode(currencyValue.getCurrencyCode());
 			currencyObj.setLastUpdated(new Date());
@@ -303,18 +303,18 @@ public class LogisticsDaoImpl implements LogisticsDao{
 		List<User> userList = new ArrayList<User>();
 		for(ArnRegistration arnRegisterVal: arnRegisterData) {
 			User userObj = new User();
-			userObj.setAuthorized_contact(arnRegisterVal.getAuthrorizedConatct());
-			userObj.setBusiness_type(arnRegisterVal.getBusinessType());
+			userObj.setAuthorizedContact(arnRegisterVal.getAuthrorizedConatct());
+			userObj.setBusinessType(arnRegisterVal.getBusinessType());
 			userObj.setCountry(arnRegisterVal.getCountry());
-			userObj.setEmail_addr(arnRegisterVal.getEmailAddress());
-			userObj.setLegal_name(arnRegisterVal.getLegalName());
-			userObj.setPhone_number(arnRegisterVal.getPhoneNumber());
-			userObj.setPost_code(arnRegisterVal.getPostCode());
-			userObj.setPostal_address(arnRegisterVal.getPostalAddress());
-			userObj.setSub_urb(arnRegisterVal.getSubUrb());
-			userObj.setTAN_number(arnRegisterVal.getTanNumber());
-			userObj.setWebsite_name(arnRegisterVal.getWebsiteName());
-			userObj.setCreation_date(new Date());
+			userObj.setEmailAddr(arnRegisterVal.getEmailAddress());
+			userObj.setLegalName(arnRegisterVal.getLegalName());
+			userObj.setPhoneNumber(arnRegisterVal.getPhoneNumber());
+			userObj.setPostCode(arnRegisterVal.getPostCode());
+			userObj.setPostalAddress(arnRegisterVal.getPostalAddress());
+			userObj.setSubUrb(arnRegisterVal.getSubUrb());
+			userObj.setTanNumber(arnRegisterVal.getTanNumber());
+			userObj.setWebsiteName(arnRegisterVal.getWebsiteName());
+			userObj.setCreationDate(new Date());
 			userList.add(userObj);
 		}
 		userRepository.saveAll(userList);
@@ -340,7 +340,7 @@ public class LogisticsDaoImpl implements LogisticsDao{
 			}
 		}
 		List<String> lastCurrencyUpdatedTime = currencyRepositry.latestCurrencyTimeStamp();
-		String lastUpdatedCurrency = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(lastCurrencyUpdatedTime.get(0));
+		String lastUpdatedCurrency = new SimpleDateFormat("yyyy-MM-dd").format(lastCurrencyUpdatedTime.get(0));
 		outstanding.setLastCurrencyUpdatedTime(lastUpdatedCurrency);
 		return outstanding;
 	}

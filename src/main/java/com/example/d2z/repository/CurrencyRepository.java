@@ -8,7 +8,7 @@ import com.example.d2z.entity.Currency;
 
 public interface CurrencyRepository extends CrudRepository<Currency, Long> {
 	
-	 @Query("SELECT t.lastUpdated FROM Currency t ORDER BY Date(t.lastUpdated) ASC") 
+	 @Query("SELECT t.lastUpdated FROM Currency t ORDER BY (t.lastUpdated) ASC") 
 	 List<String> latestCurrencyTimeStamp();
 
 }

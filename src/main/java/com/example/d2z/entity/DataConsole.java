@@ -2,9 +2,8 @@ package com.example.d2z.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.Date;
 import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.util.Date;
 
 
 /**
@@ -15,21 +14,16 @@ import java.math.BigInteger;
 @Table(name="data_console")
 @NamedQuery(name="DataConsole.findAll", query="SELECT d FROM DataConsole d")
 public class DataConsole implements Serializable {
-	
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	private BigInteger amount;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name="sale_date")
-	private Date saleDate;
+	private BigDecimal amount;
 
 	@Column(name="aud_converted_amount")
-	private BigInteger audConvertedAmount;
+	private BigDecimal audConvertedAmount;
 
 	@Column(name="currency_code")
 	private String currencyCode;
@@ -37,9 +31,11 @@ public class DataConsole implements Serializable {
 	@Column(name="file_name")
 	private String fileName;
 
-	private String GST_eligible;
+	@Column(name="gst_eligible")
+	private String gstEligible;
 
-	private BigDecimal GST_payable;
+	@Column(name="gst_payable")
+	private BigDecimal gstPayable;
 
 	@Column(name="reference_no")
 	private String referenceNo;
@@ -47,11 +43,12 @@ public class DataConsole implements Serializable {
 	@Column(name="report_indicator")
 	private String reportIndicator;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="sale_date")
+	private Date saleDate;
+
 	@Column(name="txn_date")
 	private Date txnDate;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="upload_date")
 	private Date uploadDate;
 
@@ -71,19 +68,19 @@ public class DataConsole implements Serializable {
 		this.id = id;
 	}
 
-	public BigInteger getAmount() {
-		return this.amount;
+	public BigDecimal getAmount() {
+		return amount;
 	}
 
-	public void setAmount(BigInteger amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 
-	public BigInteger getAudConvertedAmount() {
-		return this.audConvertedAmount;
+	public BigDecimal getAudConvertedAmount() {
+		return audConvertedAmount;
 	}
 
-	public void setAudConvertedAmount(BigInteger audConvertedAmount) {
+	public void setAudConvertedAmount(BigDecimal audConvertedAmount) {
 		this.audConvertedAmount = audConvertedAmount;
 	}
 
@@ -103,20 +100,20 @@ public class DataConsole implements Serializable {
 		this.fileName = fileName;
 	}
 
-	public String getGST_eligible() {
-		return this.GST_eligible;
+	public String getGstEligible() {
+		return this.gstEligible;
 	}
 
-	public void setGST_eligible(String GST_eligible) {
-		this.GST_eligible = GST_eligible;
-	}
-	
-	public BigDecimal getGST_payable() {
-		return GST_payable;
+	public void setGstEligible(String gstEligible) {
+		this.gstEligible = gstEligible;
 	}
 
-	public void setGST_payable(BigDecimal gST_payable) {
-		GST_payable = gST_payable;
+	public BigDecimal getGstPayable() {
+		return this.gstPayable;
+	}
+
+	public void setGstPayable(BigDecimal gstPayable) {
+		this.gstPayable = gstPayable;
 	}
 
 	public String getReferenceNo() {
@@ -135,8 +132,16 @@ public class DataConsole implements Serializable {
 		this.reportIndicator = reportIndicator;
 	}
 
+	public Date getSaleDate() {
+		return saleDate;
+	}
+
+	public void setSaleDate(Date saleDate) {
+		this.saleDate = saleDate;
+	}
+
 	public Date getTxnDate() {
-		return this.txnDate;
+		return txnDate;
 	}
 
 	public void setTxnDate(Date txnDate) {
@@ -144,7 +149,7 @@ public class DataConsole implements Serializable {
 	}
 
 	public Date getUploadDate() {
-		return this.uploadDate;
+		return uploadDate;
 	}
 
 	public void setUploadDate(Date uploadDate) {
@@ -166,14 +171,5 @@ public class DataConsole implements Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
-	public Date getSaleDate() {
-		return saleDate;
-	}
-
-	public void setSaleDate(Date saleDate) {
-		this.saleDate = saleDate;
-	}
-
 
 }

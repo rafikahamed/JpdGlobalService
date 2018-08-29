@@ -1,9 +1,9 @@
 package com.example.d2z.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.util.Date;
+
+import javax.persistence.*;
 
 /**
  * The persistent class for the users database table.
@@ -11,65 +11,62 @@ import java.util.Date;
  */
 @Entity
 @Table(name="users")
-@EntityListeners(AuditingEntityListener.class)
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name="Access_level")
-	private String access_level;
+	@Column(name="access_level")
+	private String accessLevel;
 
-	@Column(name="Authorized_contact")
-	private String authorized_contact;
+	@Column(name="authorized_contact")
+	private String authorizedContact;
 
-	@Column(name="Business_type")
-	private String business_type;
+	@Column(name="business_type")
+	private String businessType;
 
-	@Column(name="Country")
 	private String country;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name="Creation_date")
-	private Date creation_date;
+	@Column(name="creation_date")
+	private Date creationDate;
 
-	@Column(name="Email_addr")
-	private String email_addr;
+	@Column(name="email_addr")
+	private String emailAddr;
 
-	@Column(name="Legal_name")
-	private String legal_name;
+	@Column(name="legal_name")
+	private String legalName;
 
-	@Column(name="Mgr_username")
-	private String mgr_username;
+	@Column(name="mgr_username")
+	private String mgrUsername;
 
-	@Column(name="Pass_word")
-	private String pass_word;
+	@Column(name="pass_word")
+	private String passWord;
 
-	@Column(name="Phone_number")
-	private String phone_number;
+	@Column(name="phone_number")
+	private String phoneNumber;
 
-	@Column(name="Post_code")
-	private String post_code;
+	@Column(name="post_code")
+	private String postCode;
 
-	@Column(name="Postal_address")
-	private String postal_address;
+	@Column(name="postal_address")
+	private String postalAddress;
 
-	@Column(name="Sub_urb")
-	private String sub_urb;
+	@Column(name="sub_urb")
+	private String subUrb;
 
-	private String TAN_number;
+	@Column(name="tan_number")
+	private String tanNumber;
 
 	@Column(name="user_code")
 	private String userCode;
 
 	private String username;
 
-	@Column(name="Website_name")
-	private String website_name;
+	@Column(name="website_name")
+	private String websiteName;
 
 	public User() {
 	}
@@ -82,28 +79,28 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
-	public String getAccess_level() {
-		return this.access_level;
+	public String getAccessLevel() {
+		return this.accessLevel;
 	}
 
-	public void setAccess_level(String access_level) {
-		this.access_level = access_level;
+	public void setAccessLevel(String accessLevel) {
+		this.accessLevel = accessLevel;
 	}
 
-	public String getAuthorized_contact() {
-		return this.authorized_contact;
+	public String getAuthorizedContact() {
+		return this.authorizedContact;
 	}
 
-	public void setAuthorized_contact(String authorized_contact) {
-		this.authorized_contact = authorized_contact;
+	public void setAuthorizedContact(String authorizedContact) {
+		this.authorizedContact = authorizedContact;
 	}
 
-	public String getBusiness_type() {
-		return this.business_type;
+	public String getBusinessType() {
+		return this.businessType;
 	}
 
-	public void setBusiness_type(String business_type) {
-		this.business_type = business_type;
+	public void setBusinessType(String businessType) {
+		this.businessType = businessType;
 	}
 
 	public String getCountry() {
@@ -114,84 +111,84 @@ public class User implements Serializable {
 		this.country = country;
 	}
 
-	public Date getCreation_date() {
-		return this.creation_date;
+	public Object getCreationDate() {
+		return this.creationDate;
 	}
 
-	public void setCreation_date(Date creation_date) {
-		this.creation_date = creation_date;
+	public String getEmailAddr() {
+		return emailAddr;
 	}
 
-	public String getEmail_addr() {
-		return this.email_addr;
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
-	public void setEmail_addr(String email_addr) {
-		this.email_addr = email_addr;
+	public void setEmailAddr(String emailAddr) {
+		this.emailAddr = emailAddr;
 	}
 
-	public String getLegal_name() {
-		return this.legal_name;
+	public String getLegalName() {
+		return this.legalName;
 	}
 
-	public void setLegal_name(String legal_name) {
-		this.legal_name = legal_name;
+	public void setLegalName(String legalName) {
+		this.legalName = legalName;
 	}
 
-	public String getMgr_username() {
-		return this.mgr_username;
+	public String getMgrUsername() {
+		return this.mgrUsername;
 	}
 
-	public void setMgr_username(String mgr_username) {
-		this.mgr_username = mgr_username;
+	public void setMgrUsername(String mgrUsername) {
+		this.mgrUsername = mgrUsername;
 	}
 
-	public String getPass_word() {
-		return this.pass_word;
+	public String getPassWord() {
+		return this.passWord;
 	}
 
-	public void setPass_word(String pass_word) {
-		this.pass_word = pass_word;
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
 	}
 
-	public String getPhone_number() {
-		return this.phone_number;
+	public String getPhoneNumber() {
+		return this.phoneNumber;
 	}
 
-	public void setPhone_number(String phone_number) {
-		this.phone_number = phone_number;
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
-	public String getPost_code() {
-		return this.post_code;
+	public String getPostCode() {
+		return this.postCode;
 	}
 
-	public void setPost_code(String post_code) {
-		this.post_code = post_code;
+	public void setPostCode(String postCode) {
+		this.postCode = postCode;
 	}
 
-	public String getPostal_address() {
-		return this.postal_address;
+	public String getPostalAddress() {
+		return this.postalAddress;
 	}
 
-	public void setPostal_address(String postal_address) {
-		this.postal_address = postal_address;
+	public void setPostalAddress(String postalAddress) {
+		this.postalAddress = postalAddress;
 	}
 
-	public String getSub_urb() {
-		return this.sub_urb;
+	public String getSubUrb() {
+		return this.subUrb;
 	}
 
-	public void setSub_urb(String sub_urb) {
-		this.sub_urb = sub_urb;
+	public void setSubUrb(String subUrb) {
+		this.subUrb = subUrb;
 	}
 
-	public String getTAN_number() {
-		return this.TAN_number;
+	public String getTanNumber() {
+		return this.tanNumber;
 	}
 
-	public void setTAN_number(String TAN_number) {
-		this.TAN_number = TAN_number;
+	public void setTanNumber(String tanNumber) {
+		this.tanNumber = tanNumber;
 	}
 
 	public String getUserCode() {
@@ -210,12 +207,12 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
-	public String getWebsite_name() {
-		return this.website_name;
+	public String getWebsiteName() {
+		return this.websiteName;
 	}
 
-	public void setWebsite_name(String website_name) {
-		this.website_name = website_name;
+	public void setWebsiteName(String websiteName) {
+		this.websiteName = websiteName;
 	}
 
 }

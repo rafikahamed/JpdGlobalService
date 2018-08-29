@@ -17,7 +17,7 @@ public interface FileDetailsRepository extends CrudRepository<DataConsole, Long>
 	 @Query("SELECT t FROM DataConsole t where t.userCode = :userCode") 
 	 List<DataConsole> findDataBasedOnAll( @Param("userCode") String userCode);
 	 
-	 @Query("SELECT sum(t.GST_payable) FROM DataConsole t WHERE t.reportIndicator=:reportIndicator and t.userCode =:userCode ") 
+	 @Query("SELECT sum(t.gstPayable) FROM DataConsole t WHERE t.reportIndicator=:reportIndicator and t.userCode =:userCode") 
 	 Double fetchOutStandingGst(@Param("reportIndicator") String reportIndicator, @Param("userCode") String userCode);
 
 }

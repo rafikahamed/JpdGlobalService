@@ -1,9 +1,9 @@
 package com.example.d2z.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
+
+import javax.persistence.*;
 
 
 /**
@@ -11,42 +11,28 @@ import java.util.Date;
  * 
  */
 @Entity
+@Table(name="currency")
 @NamedQuery(name="Currency.findAll", query="SELECT c FROM Currency c")
 public class Currency implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Double AUD_currency_rate;
-	
 	@Id
 	private String country;
+
+	@Column(name="aud_currency_rate")
+	private double audCurrencyRate;
 
 	@Column(name="currency_code")
 	private String currencyCode;
 
 	@Column(name="currency_rate")
-	private Double currencyRate;
+	private double currencyRate;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_updated")
 	private Date lastUpdated;
 
 	public Currency() {
 	}
-
-	public Double getAUD_currency_rate() {
-		return AUD_currency_rate;
-	}
-
-
-	public void setAUD_currency_rate(Double aUD_currency_rate) {
-		AUD_currency_rate = aUD_currency_rate;
-	}
-
-
-	public void setCurrencyRate(Double currencyRate) {
-		this.currencyRate = currencyRate;
-	}
-
 
 	public String getCountry() {
 		return this.country;
@@ -54,6 +40,14 @@ public class Currency implements Serializable {
 
 	public void setCountry(String country) {
 		this.country = country;
+	}
+
+	public double getAudCurrencyRate() {
+		return this.audCurrencyRate;
+	}
+
+	public void setAudCurrencyRate(double audCurrencyRate) {
+		this.audCurrencyRate = audCurrencyRate;
 	}
 
 	public String getCurrencyCode() {
@@ -64,12 +58,24 @@ public class Currency implements Serializable {
 		this.currencyCode = currencyCode;
 	}
 
+	public double getCurrencyRate() {
+		return this.currencyRate;
+	}
+
+	public void setCurrencyRate(double currencyRate) {
+		this.currencyRate = currencyRate;
+	}
+
 	public Date getLastUpdated() {
-		return this.lastUpdated;
+		return lastUpdated;
 	}
 
 	public void setLastUpdated(Date lastUpdated) {
 		this.lastUpdated = lastUpdated;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

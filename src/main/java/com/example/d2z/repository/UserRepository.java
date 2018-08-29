@@ -13,25 +13,25 @@ import com.example.d2z.entity.User;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 	
-	 @Query("SELECT t.username, t.access_level, t.legal_name, t.userCode FROM User t where t.username = :userName and t.pass_word = :passWord" ) 
+	 @Query("SELECT t.username, t.accessLevel, t.legalName, t.userCode FROM User t where t.username = :userName and t.passWord = :passWord" ) 
 	 String findUserByUserCredentails(@Param("userName") String userName, @Param("passWord") String passWord);
 	 
-	 @Query("SELECT t.username, t.access_level, t.legal_name, t.userCode FROM User t where t.username = :userName" ) 
+	 @Query("SELECT t.username, t.accessLevel, t.legalName, t.userCode FROM User t where t.username = :userName" ) 
 	 String findUserByUserName(@Param("userName") String userName);
 	 
-	 @Query("SELECT t.access_level FROM User t where t.username = :userName" ) 
+	 @Query("SELECT t.accessLevel FROM User t where t.username = :userName" ) 
 	 String findAccessLevelByCode(@Param("userName") String userName);
 	 
 	 @Transactional
 	 @Modifying
-	 @Query("update User u set u.access_level = :level, u.userCode= :arnNumber, u.username = :userName, u.pass_word = :passWord, u.mgr_username = :ManagerName where u.legal_name = :legalName")
+	 @Query("update User u set u.accessLevel = :level, u.userCode= :arnNumber, u.username = :userName, u.passWord = :passWord, u.mgrUsername = :ManagerName where u.legalName = :legalName")
 	 int setSignupDetails(@Param("level") String level, @Param("arnNumber") String arnNumber, @Param("userName") String userName,
 			 								@Param("passWord") String passWord, @Param("legalName") String legalName, @Param("ManagerName") String ManagerName);
 	 
-	 @Query("SELECT t.legal_name FROM User t") 
+	 @Query("SELECT t.legalName FROM User t where t.username is null") 
 	 List<String> fetchCompanyName();
 	 
-	 @Query("SELECT t.userCode FROM User t where t.mgr_username = :managerName") 
+	 @Query("SELECT t.userCode FROM User t where t.mgrUsername = :managerName") 
 	 List<String> fetchUserCodes(@Param("managerName") String managerName);
 	 
 	 @Query("SELECT t.userCode FROM User t where t.username = :userName") 

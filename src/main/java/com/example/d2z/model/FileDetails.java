@@ -17,7 +17,7 @@ public class FileDetails {
 	private Date upload_date;
 	private long txn_date;
 	private String fileName;
-	private BigInteger aud_converted_value;
+	private Double aud_converted_value;
 	private String companyName;
 	private String accessLevel;
 	private String errMessage;
@@ -48,10 +48,10 @@ public class FileDetails {
 		this.companyName = companyName;
 	}
 	
-	public BigInteger getAud_converted_value() {
+	public Double getAud_converted_value() {
 		return aud_converted_value;
 	}
-	public void setAud_converted_value(BigInteger aud_converted_value) {
+	public void setAud_converted_value(Double aud_converted_value) {
 		this.aud_converted_value = aud_converted_value;
 	}
 	public String getFileName() {

@@ -1,6 +1,6 @@
 package com.example.d2z.serviceImpl;
 
-import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,8 +8,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.example.d2z.dao.LogisticsDao;
 import com.example.d2z.entity.Currency;
 import com.example.d2z.entity.DataConsole;
@@ -88,7 +90,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 		if(userCheck.equalsIgnoreCase("User is having the access")) {
 			List<Currency> currencyList = logisticsDao.currencyDetails();
 			 Map<String, Double> currencyMap = currencyList.stream().collect(
-		                Collectors.toMap(Currency::getCurrencyCode, Currency::getAUD_currency_rate));
+		                Collectors.toMap(Currency::getCurrencyCode, Currency::getAudCurrencyRate));
 			// Using fileData calculate GST based on above currency List
 			for(FileDetails fileValue: fileData ) {
 				if(!fileValue.getGST_eligible().equalsIgnoreCase("N")) {
@@ -117,7 +119,8 @@ public class LogisticsServiceImpl implements LogisticsService{
 											fileDetails.setGST_payable((double) 0);
 										}
 										fileDetails.setFileName(fileValue.getFileName());
-										fileDetails.setAud_converted_value(BigDecimal.valueOf(audConvertedval).toBigInteger());
+										DecimalFormat formatter = new DecimalFormat(".##");
+										fileDetails.setAud_converted_value(Double.parseDouble(formatter.format(audConvertedval)));
 										if(!checkBetween(fileValue.getArrival_date())) {
 											System.out.println("Date Check Fail");
 											List<FileDetails> gstCalculatedCheck = new ArrayList<FileDetails>();
@@ -166,7 +169,8 @@ public class LogisticsServiceImpl implements LogisticsService{
 										fileDetails.setGST_payable((double) 0);
 									}
 									fileDetails.setFileName(fileValue.getFileName());
-									fileDetails.setAud_converted_value(BigDecimal.valueOf(audConvertedval).toBigInteger());
+									DecimalFormat formatter = new DecimalFormat(".##");
+									fileDetails.setAud_converted_value(Double.parseDouble(formatter.format(audConvertedval)));
 									if(!checkBetween(fileValue.getArrival_date())) {
 										List<FileDetails> gstCalculatedCheck = new ArrayList<FileDetails>();
 										System.out.println("Date Check Fail");
@@ -224,7 +228,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 		if(userCheck.equalsIgnoreCase("User is having the access")) {
 			List<Currency> currencyList = logisticsDao.currencyDetails();
 			 Map<String, Double> currencyMap = currencyList.stream().collect(
-		                Collectors.toMap(Currency::getCurrencyCode, Currency::getAUD_currency_rate));
+		                Collectors.toMap(Currency::getCurrencyCode, Currency::getAudCurrencyRate));
 			//Using fileData calculate GST based on above currency List
 				for(FileDetails fileValue: fileData ) {
 					if(!fileValue.getGST_eligible().equalsIgnoreCase("N")) {
@@ -253,7 +257,8 @@ public class LogisticsServiceImpl implements LogisticsService{
 												fileDetails.setGST_payable((double) 0);
 											}
 											fileDetails.setFileName(fileValue.getFileName());
-											fileDetails.setAud_converted_value(BigDecimal.valueOf(audConvertedval).toBigInteger());
+											DecimalFormat formatter = new DecimalFormat(".##");
+											fileDetails.setAud_converted_value(Double.parseDouble(formatter.format(audConvertedval)));
 											if(!checkBetween(fileValue.getArrival_date())) {
 												System.out.println("Date Check Fail");
 												List<FileDetails> gstCalculatedCheck = new ArrayList<FileDetails>();
@@ -302,7 +307,8 @@ public class LogisticsServiceImpl implements LogisticsService{
 											fileDetails.setGST_payable((double) 0);
 										}
 										fileDetails.setFileName(fileValue.getFileName());
-										fileDetails.setAud_converted_value(BigDecimal.valueOf(audConvertedval).toBigInteger());
+										DecimalFormat formatter = new DecimalFormat(".##");
+										fileDetails.setAud_converted_value(Double.parseDouble(formatter.format(audConvertedval)));
 										if(!checkBetween(fileValue.getArrival_date())) {
 											List<FileDetails> gstCalculatedCheck = new ArrayList<FileDetails>();
 											System.out.println("Date Check Fail");
