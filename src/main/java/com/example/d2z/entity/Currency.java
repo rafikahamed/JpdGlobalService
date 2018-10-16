@@ -19,7 +19,7 @@ public class Currency implements Serializable {
 	@Id
 	private String country;
 
-	@Column(name="aud_currency_rate")
+	@Column(name="AUD_currency_rate")
 	private double audCurrencyRate;
 
 	@Column(name="currency_code")

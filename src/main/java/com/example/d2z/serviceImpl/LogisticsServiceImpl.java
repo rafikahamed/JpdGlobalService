@@ -1,20 +1,21 @@
 package com.example.d2z.serviceImpl;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.example.d2z.dao.LogisticsDao;
 import com.example.d2z.entity.Currency;
 import com.example.d2z.entity.DataConsole;
+import com.example.d2z.model.AdminDownloadModel;
 import com.example.d2z.model.ArnRegistration;
 import com.example.d2z.model.CurrencyDetails;
 import com.example.d2z.model.FileDetails;
@@ -93,7 +94,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 		                Collectors.toMap(Currency::getCurrencyCode, Currency::getAudCurrencyRate));
 			// Using fileData calculate GST based on above currency List
 			for(FileDetails fileValue: fileData ) {
-				if(!fileValue.getGST_eligible().equalsIgnoreCase("N")) {
+				//if(!fileValue.getGST_eligible().equalsIgnoreCase("N")) {
 					String accessLevel = logisticsDao.accessLevel(fileValue.getUsername());
 					if( accessLevel.equalsIgnoreCase("level 1")) {
 							if( fileValue.getAccessLevel().equalsIgnoreCase("level 1")){
@@ -104,17 +105,18 @@ public class LogisticsServiceImpl implements LogisticsService{
 										fileDetails = new FileDetails();
 										fileDetails.setUsername(fileValue.getUsername());
 										fileDetails.setUser_code(fileValue.getUser_code());
-										fileDetails.setGST_eligible("Y");
+										fileDetails.setGST_eligible(fileValue.getGST_eligible());
 										fileDetails.setReference_no(fileValue.getReference_no());
 										fileDetails.setArrival_date(fileValue.getArrival_date());
 										fileDetails.setCurrency_code(fileValue.getCurrency_code());
 										fileDetails.setAmount(fileValue.getAmount());
 										fileDetails.setReport_indicator("I");
+										fileDetails.setCompanyName(fileValue.getCompanyName());
 										fileDetails.setTxn_date(fileValue.getTxn_date());
 										Double audConvertedval = fileValue.getAmount() / currencyMap.get(fileValue.getCurrency_code().toUpperCase());
-										if(audConvertedval < 1000 ) {
+										if(audConvertedval < 1000  && !fileValue.getGST_eligible().equalsIgnoreCase("N")) {
 											Double gstCalculation = ( (audConvertedval) * (.10));
-											fileDetails.setGST_payable(Math.floor(gstCalculation*100) / 100);
+											fileDetails.setGST_payable((gstCalculation*100) / 100);
 										}else {
 											fileDetails.setGST_payable((double) 0);
 										}
@@ -154,17 +156,18 @@ public class LogisticsServiceImpl implements LogisticsService{
 									fileDetails = new FileDetails();
 									fileDetails.setUsername(fileValue.getUsername());
 									fileDetails.setUser_code(fileValue.getUser_code());
-									fileDetails.setGST_eligible("Y");
+									fileDetails.setGST_eligible(fileValue.getGST_eligible());
 									fileDetails.setReference_no(fileValue.getReference_no());
 									fileDetails.setArrival_date(fileValue.getArrival_date());
 									fileDetails.setCurrency_code(fileValue.getCurrency_code());
+									fileDetails.setCompanyName(fileValue.getCompanyName());
 									fileDetails.setAmount(fileValue.getAmount());
 									fileDetails.setReport_indicator("I");
 									fileDetails.setTxn_date(fileValue.getTxn_date());
 									Double audConvertedval = fileValue.getAmount() / currencyMap.get(fileValue.getCurrency_code().toUpperCase());
-									if(audConvertedval < 1000 ) {
+									if(audConvertedval < 1000  && !fileValue.getGST_eligible().equalsIgnoreCase("N")) {
 										Double gstCalculation = ( (audConvertedval) * (.10));
-										fileDetails.setGST_payable(Math.floor(gstCalculation*100) / 100);
+										fileDetails.setGST_payable((gstCalculation*100) / 100);
 									}else {
 										fileDetails.setGST_payable((double) 0);
 									}
@@ -203,9 +206,9 @@ public class LogisticsServiceImpl implements LogisticsService{
 							return gstCalculatedCheck;
 						}
 					}
-				}else {
-					System.out.println("N --->");
-				}
+//				}else {
+//					System.out.println("N --->");
+//				}
 			}
 			logisticsDao.importParcel(gstCalculated);
 		}else {
@@ -231,7 +234,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 		                Collectors.toMap(Currency::getCurrencyCode, Currency::getAudCurrencyRate));
 			//Using fileData calculate GST based on above currency List
 				for(FileDetails fileValue: fileData ) {
-					if(!fileValue.getGST_eligible().equalsIgnoreCase("N")) {
+					//if(!fileValue.getGST_eligible().equalsIgnoreCase("N")) {
 						String accessLevel = logisticsDao.accessLevel(fileValue.getUsername());
 						if( accessLevel.equalsIgnoreCase("level 1")) {
 								if( fileValue.getAccessLevel().equalsIgnoreCase("level 1")){
@@ -242,17 +245,18 @@ public class LogisticsServiceImpl implements LogisticsService{
 											fileDetails = new FileDetails();
 											fileDetails.setUsername(fileValue.getUsername());
 											fileDetails.setUser_code(fileValue.getUser_code());
-											fileDetails.setGST_eligible("Y");
+											fileDetails.setGST_eligible(fileValue.getGST_eligible());
 											fileDetails.setReference_no(fileValue.getReference_no());
 											fileDetails.setArrival_date(fileValue.getArrival_date());
 											fileDetails.setCurrency_code(fileValue.getCurrency_code());
 											fileDetails.setAmount(fileValue.getAmount());
 											fileDetails.setReport_indicator("E");
+											fileDetails.setCompanyName(fileValue.getCompanyName());
 											fileDetails.setTxn_date(fileValue.getTxn_date());
 											Double audConvertedval = fileValue.getAmount() / currencyMap.get(fileValue.getCurrency_code().toUpperCase());
-											if(audConvertedval < 1000 ) {
+											if(audConvertedval < 1000 && !fileValue.getGST_eligible().equalsIgnoreCase("N")) {
 												Double gstCalculation = ( -(audConvertedval) * (.10));
-												fileDetails.setGST_payable(Math.floor(gstCalculation*100) / 100);
+												fileDetails.setGST_payable((gstCalculation*100) / 100);
 											}else {
 												fileDetails.setGST_payable((double) 0);
 											}
@@ -292,17 +296,18 @@ public class LogisticsServiceImpl implements LogisticsService{
 										fileDetails = new FileDetails();
 										fileDetails.setUsername(fileValue.getUsername());
 										fileDetails.setUser_code(fileValue.getUser_code());
-										fileDetails.setGST_eligible("Y");
+										fileDetails.setGST_eligible(fileValue.getGST_eligible());
 										fileDetails.setReference_no(fileValue.getReference_no());
 										fileDetails.setArrival_date(fileValue.getArrival_date());
 										fileDetails.setCurrency_code(fileValue.getCurrency_code());
 										fileDetails.setAmount(fileValue.getAmount());
+										fileDetails.setCompanyName(fileValue.getCompanyName());
 										fileDetails.setReport_indicator("E");
 										fileDetails.setTxn_date(fileValue.getTxn_date());
 										Double audConvertedval = fileValue.getAmount() / currencyMap.get(fileValue.getCurrency_code().toUpperCase());
-										if(audConvertedval < 1000 ) {
+										if(audConvertedval < 1000 && !fileValue.getGST_eligible().equalsIgnoreCase("N")) {
 											Double gstCalculation = ( -(audConvertedval) * (.10));
-											fileDetails.setGST_payable(Math.floor(gstCalculation*100) / 100);
+											fileDetails.setGST_payable((gstCalculation*100) / 100);
 										}else {
 											fileDetails.setGST_payable((double) 0);
 										}
@@ -340,9 +345,9 @@ public class LogisticsServiceImpl implements LogisticsService{
 								return gstCalculatedCheck;
 							}
 						}
-					}else {
-						System.out.println("N --->");
-					}
+//					}else {
+//						System.out.println("N --->");
+//					}
 				}
 			logisticsDao.exportParcel(gstCalculated);
 		}else {
@@ -353,13 +358,12 @@ public class LogisticsServiceImpl implements LogisticsService{
 
 	@Override
 	public List<DataConsole> downloadDetails(String quater, String fileType, String userCode) {
-		List<DataConsole> currencyList = logisticsDao.downloadDetails(quater,fileType, userCode);
-		return currencyList;
+		List<DataConsole> individualDownload = logisticsDao.downloadDetails(quater,fileType, userCode);
+		return individualDownload;
 	}
 
 	@Override
 	public List<CurrencyDetails> currencyRate() {
-		// TODO Auto-generated method stub
 		List<CurrencyDetails> currencyList = logisticsDao.currencyRate();
 		return currencyList;
 	}
@@ -370,7 +374,6 @@ public class LogisticsServiceImpl implements LogisticsService{
 		return accessLevel;
 	}
 	
-	//public static boolean checkBetween(String dateToCheck, String startDate, String endDate) {
 	public static boolean checkBetween(String dateToCheck) {
 	    boolean res = false;
 	    String startDate = "01-JUL-2018";
@@ -409,6 +412,44 @@ public class LogisticsServiceImpl implements LogisticsService{
 	public OutStandingGst outStandingGst(String reportIndicator, String userCode) {
 		OutStandingGst gstDetails = logisticsDao.outStandingGst(reportIndicator, userCode);
 		return gstDetails;
+	}
+
+	@Override
+	public List<AdminDownloadModel> adminDownloadDetails() {
+		List<AdminDownloadModel> adminDataConsoleList = new ArrayList<AdminDownloadModel>();
+		AdminDownloadModel adminDataConsole = null;
+		List<String> adminDataConsole1 = logisticsDao.adminDownloadDetails();
+		Iterator itr = adminDataConsole1.iterator();
+		 while(itr.hasNext()) {   
+			 Object[] obj = (Object[]) itr.next();
+			 adminDataConsole = new AdminDownloadModel();
+			 adminDataConsole.setUser_code(obj[0].toString());
+			 adminDataConsole.setCompany_name(obj[1].toString());
+			 if(obj[2] != null)
+				 adminDataConsole.setGst_payable(new BigDecimal(obj[2].toString()));
+			 if(obj[3] != null)
+				 adminDataConsole.setTotal_sales_in_AUD(new BigDecimal(obj[3].toString()));
+			 if(obj[4] != null)
+				 adminDataConsole.setTotal_GST_Exclude_sales_in_AUD(new BigDecimal(obj[4].toString()));
+			 adminDataConsoleList.add(adminDataConsole);
+        }
+		return adminDataConsoleList;
+	}
+
+	@Override
+	public UserMessage adminLogin(String userName, String passWord) {
+		String adminLogin = logisticsDao.adminLogin(userName,passWord);
+		UserMessage userMsg  = new UserMessage();
+		System.out.println(adminLogin);
+		if(adminLogin != null) {
+			String[] loginArray = adminLogin.split(",");
+			userMsg.setMessage("Admin Logged In Successfully");
+			userMsg.setUserName(loginArray[0]);
+		}else {
+			userMsg.setMessage("User dose not have access to login");
+			userMsg.setUserName(userName);
+		}
+		return userMsg;
 	}
 
 }

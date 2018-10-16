@@ -31,10 +31,10 @@ public class DataConsole implements Serializable {
 	@Column(name="file_name")
 	private String fileName;
 
-	@Column(name="gst_eligible")
+	@Column(name="GST_eligible")
 	private String gstEligible;
 
-	@Column(name="gst_payable")
+	@Column(name="GST_payable")
 	private BigDecimal gstPayable;
 
 	@Column(name="reference_no")
@@ -43,17 +43,23 @@ public class DataConsole implements Serializable {
 	@Column(name="report_indicator")
 	private String reportIndicator;
 
+	@Temporal( TemporalType.DATE )
 	@Column(name="sale_date")
-	private Date saleDate;
+	private java.util.Date saleDate;
 
+	@Temporal( TemporalType.DATE )
 	@Column(name="txn_date")
 	private Date txnDate;
 
+	@Temporal( TemporalType.DATE )	
 	@Column(name="upload_date")
 	private Date uploadDate;
 
 	@Column(name="user_code")
 	private String userCode;
+	
+	@Column(name="company_name")
+	private String companyName;
 
 	private String username;
 
@@ -170,6 +176,14 @@ public class DataConsole implements Serializable {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 }

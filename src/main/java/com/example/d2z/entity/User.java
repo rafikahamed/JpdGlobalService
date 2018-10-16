@@ -19,45 +19,45 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name="access_level")
+	@Column(name="Access_level")
 	private String accessLevel;
 
-	@Column(name="authorized_contact")
+	@Column(name="Authorized_contact")
 	private String authorizedContact;
 
-	@Column(name="business_type")
+	@Column(name="Business_type")
 	private String businessType;
 
-	private String country;
+	private String Country;
 
-	@Column(name="creation_date")
+	@Column(name="Creation_date")
 	private Date creationDate;
 
-	@Column(name="email_addr")
+	@Column(name="Email_addr")
 	private String emailAddr;
 
-	@Column(name="legal_name")
+	@Column(name="Legal_name")
 	private String legalName;
 
-	@Column(name="mgr_username")
+	@Column(name="Mgr_username")
 	private String mgrUsername;
 
-	@Column(name="pass_word")
+	@Column(name="Pass_word")
 	private String passWord;
 
-	@Column(name="phone_number")
+	@Column(name="Phone_number")
 	private String phoneNumber;
 
-	@Column(name="post_code")
+	@Column(name="Post_code")
 	private String postCode;
 
-	@Column(name="postal_address")
+	@Column(name="Postal_address")
 	private String postalAddress;
 
-	@Column(name="sub_urb")
+	@Column(name="Sub_urb")
 	private String subUrb;
 
-	@Column(name="tan_number")
+	@Column(name="TAN_number")
 	private String tanNumber;
 
 	@Column(name="user_code")
@@ -65,7 +65,7 @@ public class User implements Serializable {
 
 	private String username;
 
-	@Column(name="website_name")
+	@Column(name="Website_name")
 	private String websiteName;
 
 	public User() {
@@ -104,11 +104,11 @@ public class User implements Serializable {
 	}
 
 	public String getCountry() {
-		return this.country;
+		return this.Country;
 	}
 
 	public void setCountry(String country) {
-		this.country = country;
+		this.Country = country;
 	}
 
 	public Object getCreationDate() {

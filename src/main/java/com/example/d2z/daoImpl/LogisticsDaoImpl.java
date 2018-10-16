@@ -26,6 +26,7 @@ import com.example.d2z.model.CurrencyPojo;
 import com.example.d2z.model.FileDetails;
 import com.example.d2z.model.OutStandingGst;
 import com.example.d2z.model.UserDetails;
+import com.example.d2z.repository.AdminRepository;
 import com.example.d2z.repository.CurrencyRepository;
 import com.example.d2z.repository.FileDetailsRepository;
 import com.example.d2z.repository.UserRepository;
@@ -42,6 +43,9 @@ public class LogisticsDaoImpl implements LogisticsDao{
 	
 	@Autowired
 	CurrencyRepository currencyRepositry;
+	
+	@Autowired
+	AdminRepository adminRepositry;
 	
 	@Override
 	public String login(String userName, String passWord) {
@@ -111,6 +115,7 @@ public class LogisticsDaoImpl implements LogisticsDao{
 			fileObj.setGstPayable(BigDecimal.valueOf(fileDataValue.getGST_payable()));
 			fileObj.setReferenceNo(fileDataValue.getReference_no());
 			fileObj.setReportIndicator(fileDataValue.getReport_indicator());
+			fileObj.setCompanyName(fileDataValue.getCompanyName());
 			fileObj.setTxnDate(new Date());
 			fileObj.setUploadDate(new Date());
 			fileObj.setUserCode(fileDataValue.getUser_code());
@@ -154,6 +159,7 @@ public class LogisticsDaoImpl implements LogisticsDao{
 			fileObj.setSaleDate(arrivalDate);
 			fileObj.setCurrencyCode(fileDataValue.getCurrency_code());
 			fileObj.setGstEligible(fileDataValue.getGST_eligible());
+			fileObj.setCompanyName(fileDataValue.getCompanyName());
 			fileObj.setGstPayable(BigDecimal.valueOf(fileDataValue.getGST_payable()));
 			fileObj.setReferenceNo(fileDataValue.getReference_no());
 			fileObj.setReportIndicator(fileDataValue.getReport_indicator());
@@ -172,7 +178,6 @@ public class LogisticsDaoImpl implements LogisticsDao{
 	@Override
 	public List<DataConsole> downloadDetails(String quater, String fileType, String userCode) {
 		List<DataConsole> downloadData = null;
-			
 		if(!fileType.equalsIgnoreCase("A")) {
 			downloadData = fileRepository.findDataBasedOnFileType(fileType,userCode);
 		}else {
@@ -209,7 +214,6 @@ public class LogisticsDaoImpl implements LogisticsDao{
 		countryMap.put("AUD", "Australian Dollar");
 
 	    URL obj = new URL("http://data.fixer.io/api/latest?access_key=7015a49ee4ba2344ba512f7026c5f7f2&base=EUR");
-		//URL obj = new URL("http://www.rba.gov.au/statistics/frequency/exchange-rates.html");
 	    HttpURLConnection con = (HttpURLConnection)obj.openConnection();
 	    con.setRequestMethod("GET");
 	   
@@ -237,7 +241,7 @@ public class LogisticsDaoImpl implements LogisticsDao{
 		        if(entry.getKey().equalsIgnoreCase("AUD")) {
 		        	currency.setAudCurrencyRate(BigDecimal.valueOf(1));
 		        }else {
-			        currency.setAudCurrencyRate(BigDecimal.valueOf(flot/fl).setScale(2, RoundingMode.HALF_UP));
+			        currency.setAudCurrencyRate(BigDecimal.valueOf(flot/fl).setScale(2, RoundingMode.HALF_EVEN));
 		        }
 		        currency.setCountry(countryMap.get(entry.getKey()));
 		        currency.setCurrencyCode(entry.getKey());
@@ -343,6 +347,19 @@ public class LogisticsDaoImpl implements LogisticsDao{
 		String lastUpdatedCurrency = new SimpleDateFormat("yyyy-MM-dd").format(lastCurrencyUpdatedTime.get(0));
 		outstanding.setLastCurrencyUpdatedTime(lastUpdatedCurrency);
 		return outstanding;
+	}
+
+	@Override
+	public List<String> adminDownloadDetails() {
+		List<String> adminDownloadData = fileRepository.fetchAdminReport();
+		return adminDownloadData;
+	}
+
+	@Override
+	public String adminLogin(String userName, String passWord) {
+		String loginSuccess = null;
+		loginSuccess = adminRepositry.existUser(userName,passWord);
+		return loginSuccess;
 	}
 	
 }

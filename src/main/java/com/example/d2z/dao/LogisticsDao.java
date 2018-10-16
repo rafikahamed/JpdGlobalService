@@ -36,5 +36,9 @@ public interface LogisticsDao {
 	public List<String> companyDetails();
 
 	public OutStandingGst outStandingGst(String reportIndicator, String userCode);
+
+	public List<String> adminDownloadDetails();
+
+	public String adminLogin(String userName, String passWord);
 	
 }

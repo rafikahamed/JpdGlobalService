@@ -6,7 +6,7 @@
 	<groupId>com.example.d2z</groupId>
 	<artifactId>parcel</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>parcel</name>
 	<description>Demo project for Spring Boot</description>
@@ -72,6 +72,7 @@
 		    <artifactId>mysql-connector-java</artifactId>
 		    <scope>runtime</scope>
 		</dependency> -->
+		
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>sqljdbc4</artifactId>
@@ -84,6 +85,7 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+	
 	</dependencies>
 
 	<build>
@@ -95,6 +97,81 @@
                 <includeSystemScope>true</includeSystemScope>
             </configuration>
 			</plugin>
+
+			<!-- <plugin>
+				    <groupId>net.alchim31.maven</groupId>
+				    <artifactId>yuicompressor-maven-plugin</artifactId>
+				    <version>1.5.1</version>
+				    <executions>
+				        <execution>
+				            <goals>
+				                <goal>compress</goal>
+				            </goals>
+				        </execution>
+				    </executions>
+				    <configuration>
+				        <nosuffix>true</nosuffix>
+				    </configuration>
+			</plugin> -->
+			
+			<!-- <plugin>
+				    <groupId>net.alchim31.maven</groupId>
+				    <artifactId>yuicompressor-maven-plugin</artifactId>
+				    <version>1.5.1</version>
+				    <executions>
+				        <execution>
+				            <goals>
+				                <goal>compress</goal>
+				            </goals>
+				        </execution>
+				    </executions>
+				    <configuration>
+				        <nosuffix>true</nosuffix>
+				        <webappDirectory>${project.build.directory}/min</webappDirectory>
+				    </configuration>
+			</plugin>
+			
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+				    <webResources>
+				        <resource>
+				            <directory>${project.build.directory}/min</directory>
+				        </resource>
+				    </webResources>
+				</configuration>
+			  </plugin> -->
+			  
+			<!-- <plugin>
+            <groupId>com.samaxes.maven</groupId>
+            <artifactId>minify-maven-plugin</artifactId>
+            <version>1.7.6</version>
+            <executions>
+                <execution>
+                    <id>default-minify</id>
+                    <phase>prepare-package</phase>
+                    <configuration>
+                        <charset>UTF-8</charset>
+                        <webappSourceDir>${basedir}/src/main/resources/static</webappSourceDir>
+                        <webappTargetDir>${project.build.outputDirectory}/static</webappTargetDir>
+                        <jsSourceDir>js</jsSourceDir>
+                        <jsSourceFiles>
+                            <jsSourceFile>myscript.js</jsSourceFile>
+                        </jsSourceFiles>
+                        <jsTargetDir>js</jsTargetDir>
+                        <jsFinalFile>myscript.js</jsFinalFile>
+                        <jsEngine>CLOSURE</jsEngine>
+                        <skipMerge>true</skipMerge>
+                        <nosuffix>true</nosuffix>
+                        <verbose>true</verbose>
+                    </configuration>
+                    <goals>
+                        <goal>minify</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin> -->
+        
 		</plugins>
 	</build>
 

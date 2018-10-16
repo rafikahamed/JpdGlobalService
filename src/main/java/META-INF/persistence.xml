@@ -4,5 +4,7 @@
 		<class>com.example.d2z.entity.Currency</class>
 		<class>com.example.d2z.entity.DataConsole</class>
 		<class>com.example.d2z.entity.User</class>
+		<class>com.example.d2z.entity.Admindata</class>
 	</persistence-unit>
+	
 </persistence>

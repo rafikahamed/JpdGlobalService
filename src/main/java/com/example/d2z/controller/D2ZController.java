@@ -1,7 +1,6 @@
 package com.example.d2z.controller;
 
 import java.util.List;
-
 import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.d2z.entity.Currency;
 import com.example.d2z.entity.DataConsole;
+import com.example.d2z.model.AdminDownloadModel;
 import com.example.d2z.model.ArnRegistration;
 import com.example.d2z.model.CurrencyDetails;
 import com.example.d2z.model.FileDetails;
@@ -30,6 +29,12 @@ public class D2ZController {
 	@RequestMapping( method = RequestMethod.GET, path = "/login")
     public UserMessage login(@RequestParam("userName") String userName, @RequestParam("passWord") String passWord) {
 		UserMessage loginMsg = logisticsService.login(userName,passWord);
+		return loginMsg;
+    }
+	
+	@RequestMapping( method = RequestMethod.GET, path = "/adminLogin")
+    public UserMessage adminLogin(@RequestParam("userName") String userName, @RequestParam("passWord") String passWord) {
+		UserMessage loginMsg = logisticsService.adminLogin(userName,passWord);
 		return loginMsg;
     }
 	
@@ -84,6 +89,12 @@ public class D2ZController {
     @RequestMapping( method = RequestMethod.GET, path = "/currencyRate", produces= MediaType.APPLICATION_JSON)
     public List<CurrencyDetails> currencyRate() {
     	List<CurrencyDetails> dataConsoleDetails = logisticsService.currencyRate();
+		return dataConsoleDetails;
+    }
+    
+    @RequestMapping( method = RequestMethod.GET, path = "/adminDownload", produces= MediaType.APPLICATION_JSON )
+    public List<AdminDownloadModel> adminDownloadDetails() {
+    	List<AdminDownloadModel> dataConsoleDetails = logisticsService.adminDownloadDetails();
 		return dataConsoleDetails;
     }
 }

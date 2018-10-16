@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.d2z.entity.Currency;
 import com.example.d2z.entity.DataConsole;
+import com.example.d2z.model.AdminDownloadModel;
 import com.example.d2z.model.ArnRegistration;
 import com.example.d2z.model.CurrencyDetails;
 import com.example.d2z.model.FileDetails;
@@ -34,5 +35,9 @@ public interface LogisticsService {
 	public List<ArnRegistration> arnRegistration(List<ArnRegistration> arnRegisterData);
 
 	public OutStandingGst outStandingGst(String reportIndicator, String userCode);
+
+	public List<AdminDownloadModel> adminDownloadDetails();
+
+	public UserMessage adminLogin(String userName, String passWord);
 
 }
