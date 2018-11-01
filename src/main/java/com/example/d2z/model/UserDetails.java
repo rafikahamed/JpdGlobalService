@@ -1,9 +1,12 @@
 package com.example.d2z.model;
 
+import javax.validation.constraints.Email;
+
 public class UserDetails {
 	
 	private String access_level;
 	private String companyName;
+	@Email(message="Invalid Email Address")
 	private String email_addr;
 	private String mgr_username;
 	private String pass_word;

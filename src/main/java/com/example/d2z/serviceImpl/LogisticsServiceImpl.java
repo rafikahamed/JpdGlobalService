@@ -10,8 +10,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.example.d2z.dao.LogisticsDao;
 import com.example.d2z.entity.Currency;
 import com.example.d2z.entity.DataConsole;
@@ -24,6 +26,7 @@ import com.example.d2z.model.UserDetails;
 import com.example.d2z.model.UserMessage;
 import com.example.d2z.repository.UserRepository;
 import com.example.d2z.service.LogisticsService;
+import com.example.d2z.validator.Validator;
 
 @Service
 public class LogisticsServiceImpl implements LogisticsService{
@@ -31,6 +34,9 @@ public class LogisticsServiceImpl implements LogisticsService{
 	@Autowired
     private LogisticsDao logisticsDao;
 
+	@Autowired
+	Validator validator;
+	
 	@Autowired
 	UserRepository userRepository;
 
@@ -55,10 +61,30 @@ public class LogisticsServiceImpl implements LogisticsService{
 
 	@Override
 	public UserMessage singUp(UserDetails userData) {
-		String existingUser = userRepository.findUserByUserName(userData.getUsername());
+		String existingUserName = userRepository.findUserByUserName(userData.getUsername());
 		String login = null;
 		UserMessage userMsg = null;
-		if( existingUser == null) {
+		if( existingUserName == null) {
+			
+			if(userData.getAccess_level().equalsIgnoreCase("level 1")) {
+				String user = userRepository.findUserByCompanyName(userData.getLegalName());
+				if(user!=null) {
+					userMsg = new UserMessage();
+					userMsg.setMessage("Company Name Already Exists");
+					userMsg.setUserName(userData.getUsername());
+					return userMsg;				
+					}
+			}
+			if(userData.getAccess_level().equalsIgnoreCase("level 2")) {
+				String existingARNNumber = userRepository.findUserByARNNumber(userData.getArn_number());
+				if(existingARNNumber != null) {
+					userMsg = new UserMessage();
+					userMsg.setMessage("ARN Number Already Exists");
+					userMsg.setUserName(userData.getUsername());
+					return userMsg;
+				}
+			}
+		
 			String loginDetails = logisticsDao.singUp(userData);
 			
 				if(loginDetails.equalsIgnoreCase("Data Saved Successfully")) {
@@ -75,6 +101,8 @@ public class LogisticsServiceImpl implements LogisticsService{
 					userMsg.setMessage(loginDetails);
 					userMsg.setUserName(userData.getUsername());
 				}
+			
+			
 		}else {
 			userMsg = new UserMessage();
 			userMsg.setMessage("User Already Exists");
@@ -85,6 +113,13 @@ public class LogisticsServiceImpl implements LogisticsService{
 
 	@Override
 	public List<FileDetails> importParcel(List<FileDetails> fileData) {
+			if(!validator.isReferenceNumberUnique(fileData)) {
+				List<FileDetails> fileDetailList = new ArrayList<FileDetails>();
+				FileDetails fileDetails = new FileDetails();
+				fileDetails.setErrMessage("***Reference Number must be unique");
+				fileDetailList.add(fileDetails);
+				return fileDetailList;
+		} 
 		List<FileDetails> gstCalculated = new ArrayList<FileDetails>();
 		FileDetails fileDetails = null;
 		String userCheck = logisticsDao.userCheck(fileData.get(0).getUsername());
@@ -225,7 +260,14 @@ public class LogisticsServiceImpl implements LogisticsService{
 
 	@Override
 	public List<FileDetails> exportParcel(List<FileDetails> fileData) {
-		 List<FileDetails> gstCalculated = new ArrayList<FileDetails>();
+		if(!validator.isReferenceNumberUnique(fileData)) {
+			List<FileDetails> fileDetailList = new ArrayList<FileDetails>();
+			FileDetails fileDetails = new FileDetails();
+			fileDetails.setErrMessage("***Reference Number must be unique");
+			fileDetailList.add(fileDetails);
+			return fileDetailList;
+	} 
+	 List<FileDetails> gstCalculated = new ArrayList<FileDetails>();
 		 FileDetails fileDetails = null;
 		String userCheck = logisticsDao.userCheck(fileData.get(0).getUsername());
 		if(userCheck.equalsIgnoreCase("User is having the access")) {
@@ -393,6 +435,10 @@ public class LogisticsServiceImpl implements LogisticsService{
 
 	@Override
 	public List<ArnRegistration> arnRegistration(List<ArnRegistration> arnRegisterData) {
+		if(!validator.isCompanyNameUnique(arnRegisterData)) {
+			arnRegisterData.get(0).setMessage("Company Name must be unique");
+			return arnRegisterData;
+		}
 		String arnData = logisticsDao.arnRegistration(arnRegisterData);
 		if(arnData.equalsIgnoreCase("ARN Data Saved Successfully")) {
 			arnRegisterData.get(0).setMessage(arnData);

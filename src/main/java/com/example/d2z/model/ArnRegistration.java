@@ -1,5 +1,7 @@
 package com.example.d2z.model;
 
+import javax.validation.constraints.Email;
+
 public class ArnRegistration {
 	
 	private String businessType;
@@ -7,6 +9,7 @@ public class ArnRegistration {
 	private String authrorizedConatct;
 	private String phoneNumber;
 	private String postalAddress;
+	@Email(message="Invalid Email Address")
 	private String emailAddress;
 	private String subUrb;
 	private String postCode;

@@ -179,9 +179,9 @@ public class LogisticsDaoImpl implements LogisticsDao{
 	public List<DataConsole> downloadDetails(String quater, String fileType, String userCode) {
 		List<DataConsole> downloadData = null;
 		if(!fileType.equalsIgnoreCase("A")) {
-			downloadData = fileRepository.findDataBasedOnFileType(fileType,userCode);
+			//downloadData = fileRepository.findDataBasedOnFileType(fileType,userCode);
 		}else {
-			downloadData = fileRepository.findDataBasedOnAll(userCode);
+			//downloadData = fileRepository.findDataBasedOnAll(userCode);
 		}
 		return downloadData;
 	}

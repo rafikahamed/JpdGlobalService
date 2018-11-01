@@ -41,5 +41,8 @@ public interface FileDetailsRepository extends CrudRepository<DataConsole, Long>
 	 					"from users) c\n" + 
 	 					"on a.user_code = c.user_code") 
 	 List<String> fetchAdminReport();
+
+	@Query("SELECT t.referenceNo FROM DataConsole t")
+	List<String> fetchAllReferenceNumbers();
 	 
 }
