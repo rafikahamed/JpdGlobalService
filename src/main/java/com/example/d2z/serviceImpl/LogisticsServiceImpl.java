@@ -116,7 +116,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 			if(!validator.isReferenceNumberUnique(fileData)) {
 				List<FileDetails> fileDetailList = new ArrayList<FileDetails>();
 				FileDetails fileDetails = new FileDetails();
-				fileDetails.setErrMessage("***Reference Number must be unique");
+				fileDetails.setErrMessage("**Reference Number must be unique");
 				fileDetailList.add(fileDetails);
 				return fileDetailList;
 		} 
