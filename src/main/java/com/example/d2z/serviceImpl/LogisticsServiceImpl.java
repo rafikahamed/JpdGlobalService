@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.example.d2z.dao.LogisticsDao;
@@ -116,7 +118,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 			if(!validator.isReferenceNumberUnique(fileData)) {
 				List<FileDetails> fileDetailList = new ArrayList<FileDetails>();
 				FileDetails fileDetails = new FileDetails();
-				fileDetails.setErrMessage("**Reference Number must be unique");
+				fileDetails.setErrMessage("***Reference Number must be unique");
 				fileDetailList.add(fileDetails);
 				return fileDetailList;
 		} 
@@ -405,6 +407,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 	}
 
 	@Override
+	@Scheduled(cron = "0 0 14 1/1 * ?")
 	public List<CurrencyDetails> currencyRate() {
 		List<CurrencyDetails> currencyList = logisticsDao.currencyRate();
 		return currencyList;
