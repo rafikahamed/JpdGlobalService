@@ -407,7 +407,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 	}
 
 	@Override
-	@Scheduled(cron = "0 0 14 1/1 * ?")
+	@Scheduled(cron = "0 0 9 1/1 * ?")
 	public List<CurrencyDetails> currencyRate() {
 		List<CurrencyDetails> currencyList = logisticsDao.currencyRate();
 		return currencyList;
