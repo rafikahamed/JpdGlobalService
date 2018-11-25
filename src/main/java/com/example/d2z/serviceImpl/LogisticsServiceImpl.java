@@ -18,6 +18,7 @@ import com.example.d2z.entity.DataConsole;
 import com.example.d2z.model.AdminDownloadModel;
 import com.example.d2z.model.ArnRegistration;
 import com.example.d2z.model.CurrencyDetails;
+import com.example.d2z.model.DropDown;
 import com.example.d2z.model.FileDetails;
 import com.example.d2z.model.OutStandingGst;
 import com.example.d2z.model.UserDetails;
@@ -55,14 +56,14 @@ public class LogisticsServiceImpl implements LogisticsService{
 
 	@Override
 	public UserMessage singUp(UserDetails userData) {
-		String existingUser = userRepository.findUserByUserName(userData.getUsername());
+		String existingUser = userRepository.findUserByUserName(userData.getUserName());
 		String login = null;
 		UserMessage userMsg = null;
 		if( existingUser == null) {
 			String loginDetails = logisticsDao.singUp(userData);
 			
 				if(loginDetails.equalsIgnoreCase("Data Saved Successfully")) {
-					login = logisticsDao.loginDetails(userData.getUsername());
+					login = logisticsDao.loginDetails(userData.getUserName());
 					userMsg = new UserMessage();
 					String[] loginArray = login.split(",");
 					userMsg.setMessage("Data Saved Successfully");
@@ -73,12 +74,12 @@ public class LogisticsServiceImpl implements LogisticsService{
 				}else {
 					userMsg = new UserMessage();
 					userMsg.setMessage(loginDetails);
-					userMsg.setUserName(userData.getUsername());
+					userMsg.setUserName(userData.getUserName());
 				}
 		}else {
 			userMsg = new UserMessage();
 			userMsg.setMessage("User Already Exists");
-			userMsg.setUserName(userData.getUsername());
+			userMsg.setUserName(userData.getUserName());
 		}
 		return userMsg;
 	}
@@ -115,7 +116,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 										fileDetails.setTxn_date(fileValue.getTxn_date());
 										Double audConvertedval = fileValue.getAmount() / currencyMap.get(fileValue.getCurrency_code().toUpperCase());
 										if(audConvertedval < 1000  && !fileValue.getGST_eligible().equalsIgnoreCase("N")) {
-											Double gstCalculation = ( (audConvertedval) * (.10));
+											Double gstCalculation = ( (audConvertedval) * (.11));
 											fileDetails.setGST_payable((gstCalculation*100) / 100);
 										}else {
 											fileDetails.setGST_payable((double) 0);
@@ -123,14 +124,14 @@ public class LogisticsServiceImpl implements LogisticsService{
 										fileDetails.setFileName(fileValue.getFileName());
 										DecimalFormat formatter = new DecimalFormat(".##");
 										fileDetails.setAud_converted_value(Double.parseDouble(formatter.format(audConvertedval)));
-										if(!checkBetween(fileValue.getArrival_date())) {
-											System.out.println("Date Check Fail");
-											List<FileDetails> gstCalculatedCheck = new ArrayList<FileDetails>();
-											fileDetails = new FileDetails();
-											fileDetails.setErrMessage("***Arrival date does not belong to this quarter (July 1st - September 30th)");
-											gstCalculatedCheck.add(fileDetails);
-											return gstCalculatedCheck;
-										}
+//										if(!checkBetween(fileValue.getArrival_date())) {
+//											System.out.println("Date Check Fail");
+//											List<FileDetails> gstCalculatedCheck = new ArrayList<FileDetails>();
+//											fileDetails = new FileDetails();
+//											fileDetails.setErrMessage("***Arrival date does not belong to this quarter (July 1st - September 30th)");
+//											gstCalculatedCheck.add(fileDetails);
+//											return gstCalculatedCheck;
+//										}
 										gstCalculated.add(fileDetails);
 									}else {
 										List<FileDetails> gstCalculatedCheck = new ArrayList<FileDetails>();
@@ -166,7 +167,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 									fileDetails.setTxn_date(fileValue.getTxn_date());
 									Double audConvertedval = fileValue.getAmount() / currencyMap.get(fileValue.getCurrency_code().toUpperCase());
 									if(audConvertedval < 1000  && !fileValue.getGST_eligible().equalsIgnoreCase("N")) {
-										Double gstCalculation = ( (audConvertedval) * (.10));
+										Double gstCalculation = ( (audConvertedval) * (.11));
 										fileDetails.setGST_payable((gstCalculation*100) / 100);
 									}else {
 										fileDetails.setGST_payable((double) 0);
@@ -174,14 +175,14 @@ public class LogisticsServiceImpl implements LogisticsService{
 									fileDetails.setFileName(fileValue.getFileName());
 									DecimalFormat formatter = new DecimalFormat(".##");
 									fileDetails.setAud_converted_value(Double.parseDouble(formatter.format(audConvertedval)));
-									if(!checkBetween(fileValue.getArrival_date())) {
-										List<FileDetails> gstCalculatedCheck = new ArrayList<FileDetails>();
-										System.out.println("Date Check Fail");
-										fileDetails = new FileDetails();
-										fileDetails.setErrMessage("***Arrival date does not belong to this quarter (July 1st - September 30th)");
-										gstCalculatedCheck.add(fileDetails);
-										return gstCalculatedCheck;
-									}
+//									if(!checkBetween(fileValue.getArrival_date())) {
+//										List<FileDetails> gstCalculatedCheck = new ArrayList<FileDetails>();
+//										System.out.println("Date Check Fail");
+//										fileDetails = new FileDetails();
+//										fileDetails.setErrMessage("***Arrival date does not belong to this quarter (July 1st - September 30th)");
+//										gstCalculatedCheck.add(fileDetails);
+//										return gstCalculatedCheck;
+//									}
 									gstCalculated.add(fileDetails);
 								}else {
 									List<FileDetails> gstCalculatedCheck = new ArrayList<FileDetails>();
@@ -206,9 +207,6 @@ public class LogisticsServiceImpl implements LogisticsService{
 							return gstCalculatedCheck;
 						}
 					}
-//				}else {
-//					System.out.println("N --->");
-//				}
 			}
 			logisticsDao.importParcel(gstCalculated);
 		}else {
@@ -255,7 +253,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 											fileDetails.setTxn_date(fileValue.getTxn_date());
 											Double audConvertedval = fileValue.getAmount() / currencyMap.get(fileValue.getCurrency_code().toUpperCase());
 											if(audConvertedval < 1000 && !fileValue.getGST_eligible().equalsIgnoreCase("N")) {
-												Double gstCalculation = ( -(audConvertedval) * (.10));
+												Double gstCalculation = ( -(audConvertedval) * (.11));
 												fileDetails.setGST_payable((gstCalculation*100) / 100);
 											}else {
 												fileDetails.setGST_payable((double) 0);
@@ -263,14 +261,14 @@ public class LogisticsServiceImpl implements LogisticsService{
 											fileDetails.setFileName(fileValue.getFileName());
 											DecimalFormat formatter = new DecimalFormat(".##");
 											fileDetails.setAud_converted_value(Double.parseDouble(formatter.format(audConvertedval)));
-											if(!checkBetween(fileValue.getArrival_date())) {
-												System.out.println("Date Check Fail");
-												List<FileDetails> gstCalculatedCheck = new ArrayList<FileDetails>();
-												fileDetails = new FileDetails();
-												fileDetails.setErrMessage("***Arrival date does not belong to this quarter (July 1st - September 30th)");
-												gstCalculatedCheck.add(fileDetails);
-												return gstCalculatedCheck;
-											}
+//											if(!checkBetween(fileValue.getArrival_date())) {
+//												System.out.println("Date Check Fail");
+//												List<FileDetails> gstCalculatedCheck = new ArrayList<FileDetails>();
+//												fileDetails = new FileDetails();
+//												fileDetails.setErrMessage("***Arrival date does not belong to this quarter (July 1st - September 30th)");
+//												gstCalculatedCheck.add(fileDetails);
+//												return gstCalculatedCheck;
+//											}
 											gstCalculated.add(fileDetails);
 										}else {
 											List<FileDetails> gstCalculatedCheck = new ArrayList<FileDetails>();
@@ -306,7 +304,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 										fileDetails.setTxn_date(fileValue.getTxn_date());
 										Double audConvertedval = fileValue.getAmount() / currencyMap.get(fileValue.getCurrency_code().toUpperCase());
 										if(audConvertedval < 1000 && !fileValue.getGST_eligible().equalsIgnoreCase("N")) {
-											Double gstCalculation = ( -(audConvertedval) * (.10));
+											Double gstCalculation = ( -(audConvertedval) * (.11));
 											fileDetails.setGST_payable((gstCalculation*100) / 100);
 										}else {
 											fileDetails.setGST_payable((double) 0);
@@ -314,14 +312,14 @@ public class LogisticsServiceImpl implements LogisticsService{
 										fileDetails.setFileName(fileValue.getFileName());
 										DecimalFormat formatter = new DecimalFormat(".##");
 										fileDetails.setAud_converted_value(Double.parseDouble(formatter.format(audConvertedval)));
-										if(!checkBetween(fileValue.getArrival_date())) {
-											List<FileDetails> gstCalculatedCheck = new ArrayList<FileDetails>();
-											System.out.println("Date Check Fail");
-											fileDetails = new FileDetails();
-											fileDetails.setErrMessage("***Arrival date does not belong to this quarter (July 1st - September 30th)");
-											gstCalculatedCheck.add(fileDetails);
-											return gstCalculatedCheck;
-										}
+//										if(!checkBetween(fileValue.getArrival_date())) {
+//											List<FileDetails> gstCalculatedCheck = new ArrayList<FileDetails>();
+//											System.out.println("Date Check Fail");
+//											fileDetails = new FileDetails();
+//											fileDetails.setErrMessage("***Arrival date does not belong to this quarter (July 1st - September 30th)");
+//											gstCalculatedCheck.add(fileDetails);
+//											return gstCalculatedCheck;
+//										}
 										gstCalculated.add(fileDetails);
 									}else {
 										List<FileDetails> gstCalculatedCheck = new ArrayList<FileDetails>();
@@ -345,9 +343,6 @@ public class LogisticsServiceImpl implements LogisticsService{
 								return gstCalculatedCheck;
 							}
 						}
-//					}else {
-//						System.out.println("N --->");
-//					}
 				}
 			logisticsDao.exportParcel(gstCalculated);
 		}else {
@@ -403,9 +398,20 @@ public class LogisticsServiceImpl implements LogisticsService{
 	}
 
 	@Override
-	public List<String> companyDetails() {
+	public List<DropDown> companyDetails() {
 		List<String> companyList = logisticsDao.companyDetails();
-		return companyList;
+		
+		List<DropDown> companyDropDownList= new ArrayList<DropDown>();
+		for(String company:companyList) {
+			if(company != null && !company.isEmpty()) {
+				DropDown dropDownVaL = new DropDown();
+				dropDownVaL.setName(company);
+				dropDownVaL.setValue(company);
+				companyDropDownList.add(dropDownVaL);
+			}
+		}
+		
+		return companyDropDownList;
 	}
 
 	@Override

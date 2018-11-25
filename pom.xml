@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.example.d2z</groupId>
-	<artifactId>parcel</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>jpdglobalprod</artifactId>
+	<version>0.0.5-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>parcel</name>

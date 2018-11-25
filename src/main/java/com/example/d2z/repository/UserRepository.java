@@ -28,7 +28,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	 int setSignupDetails(@Param("level") String level, @Param("arnNumber") String arnNumber, @Param("userName") String userName,
 			 								@Param("passWord") String passWord, @Param("legalName") String legalName, @Param("ManagerName") String ManagerName);
 	 
-	 @Query("SELECT t.legalName FROM User t where t.username is null") 
+	 @Query("SELECT distinct t.legalName FROM User t where t.username is null") 
 	 List<String> fetchCompanyName();
 	 
 	 @Query("SELECT t.userCode FROM User t where t.mgrUsername = :managerName") 

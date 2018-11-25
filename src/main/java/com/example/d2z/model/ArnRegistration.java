@@ -1,7 +1,6 @@
 package com.example.d2z.model;
 
 public class ArnRegistration {
-	
 	private String businessType;
 	private String legalName;
 	private String authrorizedConatct;
@@ -14,7 +13,21 @@ public class ArnRegistration {
 	private String websiteName;
 	private String tanNumber;
 	private String message;
+	private String dateOfBirth;
+	private String registrationDate;
 	
+	public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+	public String getRegistrationDate() {
+		return registrationDate;
+	}
+	public void setRegistrationDate(String registrationDate) {
+		this.registrationDate = registrationDate;
+	}
 	public String getMessage() {
 		return message;
 	}

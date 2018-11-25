@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -68,7 +69,7 @@ public class LogisticsDaoImpl implements LogisticsDao{
 		
 		if(userData.getAccess_level().equalsIgnoreCase("level 2")) {
 			try {
-				 signUpSuccess = userRepository.setSignupDetails(userData.getAccess_level(), userData.getArn_number(), userData.getUsername(), 
+				 signUpSuccess = userRepository.setSignupDetails(userData.getAccess_level(), userData.getArn_number(), userData.getUserName(), 
 						userData.getPass_word(), userData.getLegalName(), userData.getMgr_username());
 			}catch(Exception ex) {
 				
@@ -82,8 +83,8 @@ public class LogisticsDaoImpl implements LogisticsDao{
 			userDetails.setAuthorizedContact(userData.getAuthrorizedConatct());
 			userDetails.setEmailAddr(userData.getEmail_addr());
 			userDetails.setPhoneNumber(userData.getPhoneNumber());
-			userDetails.setUsername(userData.getUsername());
-			userDetails.setMgrUsername(userData.getUsername());
+			userDetails.setUsername(userData.getUserName());
+			userDetails.setMgrUsername(userData.getUserName());
 			userDetails.setPassWord(userData.getPass_word());
 			userRepository.save(userDetails);
 			message =  "Data Saved Successfully";
@@ -179,9 +180,9 @@ public class LogisticsDaoImpl implements LogisticsDao{
 	public List<DataConsole> downloadDetails(String quater, String fileType, String userCode) {
 		List<DataConsole> downloadData = null;
 		if(!fileType.equalsIgnoreCase("A")) {
-			downloadData = fileRepository.findDataBasedOnFileType(fileType,userCode);
+			downloadData = fileRepository.findDataBasedOnFileType(fileType,userCode,quater);
 		}else {
-			downloadData = fileRepository.findDataBasedOnAll(userCode);
+			downloadData = fileRepository.findDataBasedOnAll(userCode,quater);
 		}
 		return downloadData;
 	}
@@ -317,12 +318,13 @@ public class LogisticsDaoImpl implements LogisticsDao{
 			userObj.setPostalAddress(arnRegisterVal.getPostalAddress());
 			userObj.setSubUrb(arnRegisterVal.getSubUrb());
 			userObj.setTanNumber(arnRegisterVal.getTanNumber());
-			userObj.setWebsiteName(arnRegisterVal.getWebsiteName());
+			userObj.setWebsiteName(arnRegisterVal.getWebsiteName()); 
+			userObj.setDob(arnRegisterVal.getDateOfBirth());
+			userObj.setRegistration_date(arnRegisterVal.getRegistrationDate());
 			userObj.setCreationDate(new Date());
 			userList.add(userObj);
 		}
 		userRepository.saveAll(userList);
-		
 		return "ARN Data Saved Successfully";
 	}
 

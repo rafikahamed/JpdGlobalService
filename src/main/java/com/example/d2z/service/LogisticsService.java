@@ -7,6 +7,7 @@ import com.example.d2z.entity.DataConsole;
 import com.example.d2z.model.AdminDownloadModel;
 import com.example.d2z.model.ArnRegistration;
 import com.example.d2z.model.CurrencyDetails;
+import com.example.d2z.model.DropDown;
 import com.example.d2z.model.FileDetails;
 import com.example.d2z.model.OutStandingGst;
 import com.example.d2z.model.UserDetails;
@@ -22,7 +23,7 @@ public interface LogisticsService {
 
 	public List<Currency> currencyDetails();
 	
-	public List<String> companyDetails();
+	public List<DropDown> companyDetails();
 
 	public List<FileDetails> exportParcel(List<FileDetails> fileData);
 

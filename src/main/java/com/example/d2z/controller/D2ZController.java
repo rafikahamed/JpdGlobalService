@@ -13,6 +13,7 @@ import com.example.d2z.entity.DataConsole;
 import com.example.d2z.model.AdminDownloadModel;
 import com.example.d2z.model.ArnRegistration;
 import com.example.d2z.model.CurrencyDetails;
+import com.example.d2z.model.DropDown;
 import com.example.d2z.model.FileDetails;
 import com.example.d2z.model.OutStandingGst;
 import com.example.d2z.model.UserDetails;
@@ -60,7 +61,7 @@ public class D2ZController {
     }
 	
 	@RequestMapping( method = RequestMethod.GET, path = "/companyDetails")
-	public List<String> companyDetails() {
+	public List<DropDown> companyDetails() {
 		return logisticsService.companyDetails();
     }
     

@@ -2,7 +2,6 @@ package com.example.d2z.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import javax.persistence.*;
 
 /**
@@ -67,8 +66,30 @@ public class User implements Serializable {
 
 	@Column(name="Website_name")
 	private String websiteName;
+	
+	@Column(name="Registration_date")
+	private String registration_date;
+	
+	@Column(name="DOB")
+	private String dob;
 
 	public User() {
+	}
+	
+	public String getRegistration_date() {
+		return registration_date;
+	}
+
+	public void setRegistration_date(String registration_date) {
+		this.registration_date = registration_date;
+	}
+
+	public String getDob() {
+		return this.dob;
+	}
+
+	public void setDob(String dob) {
+		this.dob = dob;
 	}
 
 	public int getId() {
