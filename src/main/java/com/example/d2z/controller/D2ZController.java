@@ -1,13 +1,18 @@
 package com.example.d2z.controller;
 
 import java.util.List;
+
+import javax.validation.Valid;
 import javax.ws.rs.core.MediaType;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.example.d2z.entity.Currency;
 import com.example.d2z.entity.DataConsole;
 import com.example.d2z.model.AdminDownloadModel;
@@ -21,6 +26,7 @@ import com.example.d2z.model.UserMessage;
 import com.example.d2z.service.LogisticsService;
 
 @RestController
+@Validated
 @RequestMapping(value = "/v1/logistics")
 public class D2ZController {
 	
@@ -46,12 +52,12 @@ public class D2ZController {
     }
     
 	@RequestMapping( method = RequestMethod.POST, path = "/signup", consumes=MediaType.APPLICATION_JSON)
-	public UserMessage singUp(@RequestBody UserDetails userData) {
+	public UserMessage singUp(@Valid @RequestBody UserDetails userData) {
 		return logisticsService.singUp(userData);
     }
 	
 	@RequestMapping( method = RequestMethod.POST, path = "/arnRegistration", consumes=MediaType.APPLICATION_JSON)
-	public List<ArnRegistration> arnRegistration(@RequestBody List<ArnRegistration> arnRegisterData) {
+	public List<ArnRegistration> arnRegistration(@RequestBody List<@Valid ArnRegistration> arnRegisterData)  {
 		return logisticsService.arnRegistration(arnRegisterData);
     }
 	
