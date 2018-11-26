@@ -113,12 +113,12 @@ public class LogisticsDaoImpl implements LogisticsDao{
 			fileObj.setCurrencyCode(fileDataValue.getCurrency_code());
 			fileObj.setGstEligible(fileDataValue.getGST_eligible());
 			fileObj.setGstPayable(BigDecimal.valueOf(fileDataValue.getGST_payable()));
-			fileObj.setReferenceNo(fileDataValue.getReference_no());
+			fileObj.setReferenceNo(fileDataValue.getReference_no().trim());
 			fileObj.setReportIndicator(fileDataValue.getReport_indicator());
 			fileObj.setCompanyName(fileDataValue.getCompanyName());
 			fileObj.setTxnDate(new Date());
 			fileObj.setUploadDate(new Date());
-			fileObj.setUserCode(fileDataValue.getUser_code());
+			fileObj.setUserCode(fileDataValue.getUser_code().trim());
 			fileObj.setUsername(fileDataValue.getUsername());
 			fileObj.setFileName(fileDataValue.getFileName());
 			fileObj.setAudConvertedAmount(BigDecimal.valueOf(fileDataValue.getAud_converted_value()));

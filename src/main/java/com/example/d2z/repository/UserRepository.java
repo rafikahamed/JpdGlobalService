@@ -40,7 +40,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	 @Query("SELECT t.legalName FROM User t") 
 	 List<String> fetchAllCompanyName();
 
-	 @Query("SELECT t.legalName FROM User t where t.legalName = :companyName") 
+	 @Query("SELECT distinct t.legalName FROM User t where t.legalName = :companyName") 
 	 String findUserByCompanyName(String companyName);
 	 
 	 @Query("SELECT t.userCode FROM User t where t.userCode = :arnNumber") 
