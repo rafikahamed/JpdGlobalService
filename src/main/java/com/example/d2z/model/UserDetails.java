@@ -11,7 +11,7 @@ public class UserDetails {
 	private String mgr_username;
 	private String pass_word;
 	private String user_code;
-	private String userName;
+	private String username;
 	private String legalName;
 	private String arn_number;
 	private String authrorizedConatct;
@@ -79,11 +79,11 @@ public class UserDetails {
 	public void setUser_code(String user_code) {
 		this.user_code = user_code;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserName(String username) {
+		this.username = username;
 	}
 	
 }

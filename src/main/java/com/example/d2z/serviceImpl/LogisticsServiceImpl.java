@@ -5,17 +5,14 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
 import com.example.d2z.dao.LogisticsDao;
 import com.example.d2z.entity.Currency;
 import com.example.d2z.entity.DataConsole;
@@ -64,7 +61,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 
 	@Override
 	public UserMessage singUp(UserDetails userData) {
-		String existingUserName = userRepository.findUserByUserName(userData.getUserName());
+		String existingUserName = userRepository.findUserByUserName(userData.getUsername());
 		String login = null;
 		UserMessage userMsg = null;
 		if( existingUserName == null) {
@@ -74,7 +71,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 				if(user!=null) {
 					userMsg = new UserMessage();
 					userMsg.setMessage("Company Name Already Exists");
-					userMsg.setUserName(userData.getUserName());
+					userMsg.setUserName(userData.getUsername());
 					return userMsg;				
 					}
 			}
@@ -83,7 +80,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 				if(existingARNNumber != null) {
 					userMsg = new UserMessage();
 					userMsg.setMessage("ARN Number Already Exists");
-					userMsg.setUserName(userData.getUserName());
+					userMsg.setUserName(userData.getUsername());
 					return userMsg;
 				}
 			}
@@ -91,7 +88,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 			String loginDetails = logisticsDao.singUp(userData);
 			
 				if(loginDetails.equalsIgnoreCase("Data Saved Successfully")) {
-					login = logisticsDao.loginDetails(userData.getUserName());
+					login = logisticsDao.loginDetails(userData.getUsername());
 					userMsg = new UserMessage();
 					String[] loginArray = login.split(",");
 					userMsg.setMessage("Data Saved Successfully");
@@ -102,14 +99,14 @@ public class LogisticsServiceImpl implements LogisticsService{
 				}else {
 					userMsg = new UserMessage();
 					userMsg.setMessage(loginDetails);
-					userMsg.setUserName(userData.getUserName());
+					userMsg.setUserName(userData.getUsername());
 				}
 			
 			
 		}else {
 			userMsg = new UserMessage();
 			userMsg.setMessage("User Already Exists");
-			userMsg.setUserName(userData.getUserName());
+			userMsg.setUserName(userData.getUsername());
 		}
 		return userMsg;
 	}

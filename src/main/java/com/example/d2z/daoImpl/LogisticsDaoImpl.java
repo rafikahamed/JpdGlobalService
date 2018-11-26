@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -69,7 +68,7 @@ public class LogisticsDaoImpl implements LogisticsDao{
 		
 		if(userData.getAccess_level().equalsIgnoreCase("level 2")) {
 			try {
-				 signUpSuccess = userRepository.setSignupDetails(userData.getAccess_level(), userData.getArn_number(), userData.getUserName(), 
+				 signUpSuccess = userRepository.setSignupDetails(userData.getAccess_level(), userData.getArn_number(), userData.getUsername(), 
 						userData.getPass_word(), userData.getLegalName(), userData.getMgr_username());
 			}catch(Exception ex) {
 				
@@ -83,8 +82,8 @@ public class LogisticsDaoImpl implements LogisticsDao{
 			userDetails.setAuthorizedContact(userData.getAuthrorizedConatct());
 			userDetails.setEmailAddr(userData.getEmail_addr());
 			userDetails.setPhoneNumber(userData.getPhoneNumber());
-			userDetails.setUsername(userData.getUserName());
-			userDetails.setMgrUsername(userData.getUserName());
+			userDetails.setUsername(userData.getUsername());
+			userDetails.setMgrUsername(userData.getUsername());
 			userDetails.setPassWord(userData.getPass_word());
 			userRepository.save(userDetails);
 			message =  "Data Saved Successfully";
