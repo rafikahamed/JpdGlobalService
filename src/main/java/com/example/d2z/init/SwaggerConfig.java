@@ -14,15 +14,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {  
 	
-//    @Bean
-//    public Docket api() { 
-//        return new Docket(DocumentationType.SWAGGER_2)  
-//          .select()                                  
-//          .apis(RequestHandlerSelectors.basePackage("com.example.controller"))              
-//          .paths(PathSelectors.any())                          
-//          .build();                                           
-//    }
-	
 	@Bean
 	public Docket merchantApi() {
 	        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select().paths(regex("/v1/logistics/.*"))
@@ -30,7 +21,7 @@ public class SwaggerConfig {
 	}
     
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("Logistics Dashboard").description("Logistics report")
+        return new ApiInfoBuilder().title("JPD Dashboard").description("GST report")
                 .contact("RAFIK AHAMED").version("2.0").build();
     }
 }

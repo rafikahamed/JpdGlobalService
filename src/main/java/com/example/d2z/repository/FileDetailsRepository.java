@@ -2,6 +2,7 @@ package com.example.d2z.repository;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import com.example.d2z.entity.DataConsole;
@@ -44,5 +45,14 @@ public interface FileDetailsRepository extends CrudRepository<DataConsole, Long>
 
 	@Query("SELECT t.referenceNo FROM DataConsole t")
 	List<String> fetchAllReferenceNumbers();
+	
+	@Query("SELECT distinct(fileName) FROM DataConsole")
+	List<String> fetchFileDetails();
+	
+	@Query("select t from DataConsole t  where t.fileName=:fileName")
+	List<DataConsole> fetchImportExportDetails(@Param("fileName") String fileName);
+	
+	@Procedure(name = "delete_gst_data")
+	void deleteGstData( @Param("reference_no") String reference_no);
 	 
 }

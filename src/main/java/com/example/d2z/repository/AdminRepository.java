@@ -10,7 +10,7 @@ import com.example.d2z.entity.Admindata;
 
 public interface AdminRepository extends CrudRepository<Admindata, Long> {
 	
-	 @Query("SELECT a.password FROM Admindata a where a.username = :userName and a.password = :passWord" ) 
+	 @Query("SELECT a.username FROM Admindata a where a.username = :userName and a.password = :passWord" ) 
 	 String existUser(@Param("userName") String userName, @Param("passWord") String passWord);
 	 
 }

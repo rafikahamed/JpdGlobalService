@@ -362,7 +362,25 @@ public class LogisticsDaoImpl implements LogisticsDao{
 		loginSuccess = adminRepositry.existUser(userName,passWord);
 		return loginSuccess;
 	}
-	
+
+	@Override
+	public List<String> fileNames() {
+		List<String> userSuccess = fileRepository.fetchFileDetails();
+		return userSuccess;
+	}
+
+	@Override
+	public List<DataConsole> importExportDetails(String fileName) {
+		List<DataConsole> importExportDetails = fileRepository.fetchImportExportDetails(fileName);
+		return importExportDetails;
+	}
+
+	@Override
+	public String deleteGstData(String reference_no) {
+		fileRepository.deleteGstData(reference_no);
+		return "Data Deletion Updated Successfully";
+	}
+
 }
 
 

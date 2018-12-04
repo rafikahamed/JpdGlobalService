@@ -113,7 +113,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 
 	@Override
 	public List<FileDetails> importParcel(List<FileDetails> fileData) {
-			if(!validator.isReferenceNumberUnique(fileData)) {
+		if(!validator.isReferenceNumberUnique(fileData)) {
 				List<FileDetails> fileDetailList = new ArrayList<FileDetails>();
 				FileDetails fileDetails = new FileDetails();
 				fileDetails.setErrMessage("***Reference Number must be unique");
@@ -150,7 +150,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 										fileDetails.setTxn_date(fileValue.getTxn_date());
 										Double audConvertedval = fileValue.getAmount() / currencyMap.get(fileValue.getCurrency_code().toUpperCase());
 										if(audConvertedval < 1000  && !fileValue.getGST_eligible().equalsIgnoreCase("N")) {
-											Double gstCalculation = ( (audConvertedval) * (.11));
+											Double gstCalculation = ( (audConvertedval) / (11));
 											fileDetails.setGST_payable((gstCalculation*100) / 100);
 										}else {
 											fileDetails.setGST_payable((double) 0);
@@ -201,7 +201,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 									fileDetails.setTxn_date(fileValue.getTxn_date());
 									Double audConvertedval = fileValue.getAmount() / currencyMap.get(fileValue.getCurrency_code().toUpperCase());
 									if(audConvertedval < 1000  && !fileValue.getGST_eligible().equalsIgnoreCase("N")) {
-										Double gstCalculation = ( (audConvertedval) * (.11));
+										Double gstCalculation = ( (audConvertedval) / (11));
 										fileDetails.setGST_payable((gstCalculation*100) / 100);
 									}else {
 										fileDetails.setGST_payable((double) 0);
@@ -294,7 +294,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 											fileDetails.setTxn_date(fileValue.getTxn_date());
 											Double audConvertedval = fileValue.getAmount() / currencyMap.get(fileValue.getCurrency_code().toUpperCase());
 											if(audConvertedval < 1000 && !fileValue.getGST_eligible().equalsIgnoreCase("N")) {
-												Double gstCalculation = ( -(audConvertedval) * (.11));
+												Double gstCalculation = ( -(audConvertedval) / (11));
 												fileDetails.setGST_payable((gstCalculation*100) / 100);
 											}else {
 												fileDetails.setGST_payable((double) 0);
@@ -345,7 +345,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 										fileDetails.setTxn_date(fileValue.getTxn_date());
 										Double audConvertedval = fileValue.getAmount() / currencyMap.get(fileValue.getCurrency_code().toUpperCase());
 										if(audConvertedval < 1000 && !fileValue.getGST_eligible().equalsIgnoreCase("N")) {
-											Double gstCalculation = ( -(audConvertedval) * (.11));
+											Double gstCalculation = ( -(audConvertedval) / (11));
 											fileDetails.setGST_payable((gstCalculation*100) / 100);
 										}else {
 											fileDetails.setGST_payable((double) 0);
@@ -501,6 +501,34 @@ public class LogisticsServiceImpl implements LogisticsService{
 			userMsg.setMessage("User dose not have access to login");
 			userMsg.setUserName(userName);
 		}
+		return userMsg;
+	}
+	
+	@Override
+	public List<DropDown> fileNames() {
+		List<String> fileList = logisticsDao.fileNames();
+		List<DropDown> fileDropDownList= new ArrayList<DropDown>();
+		for(String company:fileList) {
+			if(company != null && !company.isEmpty()) {
+				DropDown dropDownVaL = new DropDown();
+				dropDownVaL.setName(company);
+				dropDownVaL.setValue(company);
+				fileDropDownList.add(dropDownVaL);
+			}
+		}
+		return fileDropDownList;
+	}
+
+	@Override
+	public List<DataConsole> importExportDetails(String fileName) {
+		return logisticsDao.importExportDetails(fileName);
+	}
+
+	@Override
+	public UserMessage deleteGstData(String reference_no) {
+		String deltedGstMsg= logisticsDao.deleteGstData(reference_no);
+		UserMessage userMsg = new UserMessage();
+		userMsg.setMessage(deltedGstMsg);
 		return userMsg;
 	}
 

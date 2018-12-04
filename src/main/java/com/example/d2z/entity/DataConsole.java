@@ -13,6 +13,14 @@ import java.util.Date;
 @Entity
 @Table(name="data_console")
 @NamedQuery(name="DataConsole.findAll", query="SELECT d FROM DataConsole d")
+@NamedStoredProcedureQueries({
+	   @NamedStoredProcedureQuery(name = "delete_gst_data", 
+	   procedureName = "deleteRecord",
+	   parameters = {
+		   @StoredProcedureParameter(mode = ParameterMode.IN, name = "reference_no", type = String.class)
+		})
+})
+
 public class DataConsole implements Serializable {
 	private static final long serialVersionUID = 1L;
 

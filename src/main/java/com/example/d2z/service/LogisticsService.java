@@ -41,4 +41,10 @@ public interface LogisticsService {
 
 	public UserMessage adminLogin(String userName, String passWord);
 
+	public List<DropDown> fileNames();
+
+	public List<DataConsole> importExportDetails(String fileName);
+
+	public UserMessage deleteGstData(String reference_no);
+
 }
