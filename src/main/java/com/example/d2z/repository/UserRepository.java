@@ -1,5 +1,6 @@
 package com.example.d2z.repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,11 +25,13 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	 
 	 @Transactional
 	 @Modifying
-	 @Query("update User u set u.accessLevel = :level, u.userCode= :arnNumber, u.username = :userName, u.passWord = :passWord, u.mgrUsername = :ManagerName where u.legalName = :legalName")
+	 @Query("update User u set u.accessLevel = :level, u.userCode= :arnNumber, u.username = :userName, u.passWord = :passWord, u.mgrUsername = :ManagerName, "
+	 		+ "u.timestamp = :updatedTime where u.legalName = :legalName")
 	 int setSignupDetails(@Param("level") String level, @Param("arnNumber") String arnNumber, @Param("userName") String userName,
-			 								@Param("passWord") String passWord, @Param("legalName") String legalName, @Param("ManagerName") String ManagerName);
+			 								@Param("passWord") String passWord, @Param("legalName") String legalName, 
+			 								@Param("ManagerName") String ManagerName, @Param("updatedTime") Timestamp updatedTime);
 	 
-	 @Query("SELECT distinct t.legalName FROM User t where t.username is null") 
+	 @Query("SELECT distinct t.legalName FROM User t where t.username is not null") 
 	 List<String> fetchCompanyName();
 	 
 	 @Query("SELECT t.userCode FROM User t where t.mgrUsername = :managerName") 
@@ -37,13 +40,16 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	 @Query("SELECT t.userCode FROM User t where t.username = :userName") 
 	 List<String> fetchUserCodesByUserName(@Param("userName") String userName);
 	 
-	 @Query("SELECT t.legalName FROM User t") 
+	 @Query("SELECT distinct t.legalName FROM User t WHERE t.legalName is not null and t.legalName != '' ") 
 	 List<String> fetchAllCompanyName();
 
 	 @Query("SELECT distinct t.legalName FROM User t where t.legalName = :companyName") 
-	 String findUserByCompanyName(String companyName);
+	 String findUserByCompanyName(@Param("companyName") String companyName);
 	 
 	 @Query("SELECT t.userCode FROM User t where t.userCode = :arnNumber") 
-	String findUserByARNNumber(@Param("arnNumber") String arn_number);
+	 String findUserByARNNumber(@Param("arnNumber") String arn_number);
+
+	 @Query("SELECT distinct(t.username) FROM User t where accessLevel='level 1' ") 
+	 List<String> fetchManagerUserName();
 	 
 }

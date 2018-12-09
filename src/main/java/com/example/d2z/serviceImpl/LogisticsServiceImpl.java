@@ -84,9 +84,7 @@ public class LogisticsServiceImpl implements LogisticsService{
 					return userMsg;
 				}
 			}
-		
 			String loginDetails = logisticsDao.singUp(userData);
-			
 				if(loginDetails.equalsIgnoreCase("Data Saved Successfully")) {
 					login = logisticsDao.loginDetails(userData.getUsername());
 					userMsg = new UserMessage();
@@ -101,8 +99,6 @@ public class LogisticsServiceImpl implements LogisticsService{
 					userMsg.setMessage(loginDetails);
 					userMsg.setUserName(userData.getUsername());
 				}
-			
-			
 		}else {
 			userMsg = new UserMessage();
 			userMsg.setMessage("User Already Exists");
@@ -505,8 +501,8 @@ public class LogisticsServiceImpl implements LogisticsService{
 	}
 	
 	@Override
-	public List<DropDown> fileNames() {
-		List<String> fileList = logisticsDao.fileNames();
+	public List<DropDown> fileNames(String userName) {
+		List<String> fileList = logisticsDao.fileNames(userName);
 		List<DropDown> fileDropDownList= new ArrayList<DropDown>();
 		for(String company:fileList) {
 			if(company != null && !company.isEmpty()) {
@@ -530,6 +526,21 @@ public class LogisticsServiceImpl implements LogisticsService{
 		UserMessage userMsg = new UserMessage();
 		userMsg.setMessage(deltedGstMsg);
 		return userMsg;
+	}
+
+	@Override
+	public List<DropDown> fetchMgrUserName() {
+		List<String> level1UserName = logisticsDao.fetchMgrUserName();
+		List<DropDown> level1DropDownList= new ArrayList<DropDown>();
+		for(String company:level1UserName) {
+			if(company != null && !company.isEmpty()) {
+				DropDown dropDownVaL = new DropDown();
+				dropDownVaL.setName(company);
+				dropDownVaL.setValue(company);
+				level1DropDownList.add(dropDownVaL);
+			}
+		}
+		return level1DropDownList;
 	}
 
 }

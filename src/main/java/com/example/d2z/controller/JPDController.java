@@ -68,9 +68,14 @@ public class JPDController {
 		return logisticsService.companyDetails();
     }
 	
+	@RequestMapping( method = RequestMethod.GET, path = "/fetchMgrUserName")
+	public List<DropDown> fetchMgrUserName() {
+		return logisticsService.fetchMgrUserName();
+    }
+	
 	@RequestMapping( method = RequestMethod.GET, path = "/fileName")
-	public List<DropDown> fileNames() {
-		return logisticsService.fileNames();
+	public List<DropDown> fileNames(@RequestParam("userName") String userName) {
+		return logisticsService.fileNames(userName);
     }
     
     @RequestMapping( method = RequestMethod.POST, path = "/import", consumes= MediaType.APPLICATION_JSON)

@@ -70,6 +70,8 @@ public class DataConsole implements Serializable {
 	private String companyName;
 
 	private String username;
+	
+	private String isdeleted;
 
 	public DataConsole() {
 	}
@@ -192,6 +194,14 @@ public class DataConsole implements Serializable {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+	
+	public String getIsdeleted() {
+		return this.isdeleted;
+	}
+
+	public void setIsdeleted(String isdeleted) {
+		this.isdeleted = isdeleted;
 	}
 
 }

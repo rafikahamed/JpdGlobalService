@@ -41,10 +41,12 @@ public interface LogisticsDao {
 
 	public String adminLogin(String userName, String passWord);
 
-	public List<String> fileNames();
+	public List<String> fileNames(String userName);
 
 	public List<DataConsole> importExportDetails(String fileName);
 
 	public String deleteGstData(String reference_no);
+
+	public List<String> fetchMgrUserName();
 	
 }

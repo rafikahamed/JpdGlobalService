@@ -1,6 +1,7 @@
 package com.example.d2z.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import javax.persistence.*;
 
@@ -72,6 +73,8 @@ public class User implements Serializable {
 	
 	@Column(name="DOB")
 	private String dob;
+	
+	private Timestamp timestamp;
 
 	public User() {
 	}
@@ -234,6 +237,14 @@ public class User implements Serializable {
 
 	public void setWebsiteName(String websiteName) {
 		this.websiteName = websiteName;
+	}
+
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
 	}
 
 }

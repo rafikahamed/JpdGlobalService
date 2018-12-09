@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -69,7 +70,7 @@ public class LogisticsDaoImpl implements LogisticsDao{
 		if(userData.getAccess_level().equalsIgnoreCase("level 2")) {
 			try {
 				 signUpSuccess = userRepository.setSignupDetails(userData.getAccess_level(), userData.getArn_number(), userData.getUsername(), 
-						userData.getPass_word(), userData.getLegalName(), userData.getMgr_username());
+						userData.getPass_word(), userData.getLegalName(), userData.getMgr_username(), new Timestamp(new Date().getTime()));
 			}catch(Exception ex) {
 				
 			}
@@ -83,8 +84,9 @@ public class LogisticsDaoImpl implements LogisticsDao{
 			userDetails.setEmailAddr(userData.getEmail_addr());
 			userDetails.setPhoneNumber(userData.getPhoneNumber());
 			userDetails.setUsername(userData.getUsername());
-			userDetails.setMgrUsername(userData.getUsername());
+			userDetails.setMgrUsername(userData.getMgr_username());
 			userDetails.setPassWord(userData.getPass_word());
+			userDetails.setTimestamp(new Timestamp(new Date().getTime()));
 			userRepository.save(userDetails);
 			message =  "Data Saved Successfully";
 		}
@@ -364,8 +366,8 @@ public class LogisticsDaoImpl implements LogisticsDao{
 	}
 
 	@Override
-	public List<String> fileNames() {
-		List<String> userSuccess = fileRepository.fetchFileDetails();
+	public List<String> fileNames(String userName) {
+		List<String> userSuccess = fileRepository.fetchFileDetails(userName);
 		return userSuccess;
 	}
 
@@ -379,6 +381,12 @@ public class LogisticsDaoImpl implements LogisticsDao{
 	public String deleteGstData(String reference_no) {
 		fileRepository.deleteGstData(reference_no);
 		return "Data Deletion Updated Successfully";
+	}
+
+	@Override
+	public List<String> fetchMgrUserName() {
+		List<String> userSuccess = userRepository.fetchManagerUserName();
+		return userSuccess;
 	}
 
 }
