@@ -42,6 +42,13 @@ public class JPDController {
 		return loginMsg;
     }
 	
+	@RequestMapping( method = RequestMethod.GET, path = "/contactUs")
+    public String contactUs(@RequestParam("email") String email, @RequestParam("message") String message, @RequestParam("name") String name,
+    			@RequestParam("subject") String subject) {
+		String loginMsg = logisticsService.contactUs(email, message, name, subject);
+		return loginMsg;
+    }
+	
 	@RequestMapping( method = RequestMethod.GET, path = "/accessLevel")
     public String accessLevel(@RequestParam("companyName") String companyName, @RequestParam("userCode") String userCode) {
 		String accessLevel = logisticsService.accessLevel(companyName,userCode);

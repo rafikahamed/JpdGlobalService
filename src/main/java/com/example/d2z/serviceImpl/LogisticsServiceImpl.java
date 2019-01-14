@@ -9,7 +9,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.stream.Collectors;
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,7 @@ import com.example.d2z.model.UserDetails;
 import com.example.d2z.model.UserMessage;
 import com.example.d2z.repository.UserRepository;
 import com.example.d2z.service.LogisticsService;
+import com.example.d2z.utils.EmailUtil;
 import com.example.d2z.validator.Validator;
 
 @Service
@@ -39,6 +44,9 @@ public class LogisticsServiceImpl implements LogisticsService{
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	EmailUtil emailUtil; 
 
 	@Override
 	public UserMessage login(String userName, String passWord) {
@@ -61,6 +69,20 @@ public class LogisticsServiceImpl implements LogisticsService{
 
 	@Override
 	public UserMessage singUp(UserDetails userData) {
+		final String fromEmail = "support@jpdglobal.com.au";
+		final String password = "Cow33491";
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "outlook.office365.com"); //SMTP Host
+		props.put("mail.smtp.port", "587"); //TLS Port
+		props.put("mail.smtp.auth", "true"); //enable authentication
+		props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
+		
+		Authenticator auth = new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(fromEmail, password);
+			}
+		};
+		
 		String existingUserName = userRepository.findUserByUserName(userData.getUsername());
 		String login = null;
 		UserMessage userMsg = null;
@@ -86,6 +108,8 @@ public class LogisticsServiceImpl implements LogisticsService{
 			}
 			String loginDetails = logisticsDao.singUp(userData);
 				if(loginDetails.equalsIgnoreCase("Data Saved Successfully")) {
+					Session session = Session.getInstance(props, auth);
+					emailUtil.adminSignUpEmail(session,userData);
 					login = logisticsDao.loginDetails(userData.getUsername());
 					userMsg = new UserMessage();
 					String[] loginArray = login.split(",");
@@ -426,12 +450,29 @@ public class LogisticsServiceImpl implements LogisticsService{
 
 	@Override
 	public List<ArnRegistration> arnRegistration(List<ArnRegistration> arnRegisterData) {
+		final String fromEmail = "support@jpdglobal.com.au";
+		final String password = "Cow33491";
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "outlook.office365.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
 		if(!validator.isCompanyNameUnique(arnRegisterData)) {
 			arnRegisterData.get(0).setMessage("Company Name must be unique");
 			return arnRegisterData;
 		}
 		String arnData = logisticsDao.arnRegistration(arnRegisterData);
 		if(arnData.equalsIgnoreCase("ARN Data Saved Successfully")) {
+	        //create Authenticator object to pass in Session.getInstance argument
+			if(arnRegisterData.size() == 1) {
+				Authenticator auth = new Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(fromEmail, password);
+					}
+				};
+				Session session = Session.getInstance(props, auth);
+				emailUtil.userSignupEmail(session, arnRegisterData);
+			}
 			arnRegisterData.get(0).setMessage(arnData);
 		}else {
 			arnRegisterData.get(0).setMessage("Unable to save the ARN Data");
@@ -442,7 +483,6 @@ public class LogisticsServiceImpl implements LogisticsService{
 	@Override
 	public List<DropDown> companyDetails() {
 		List<String> companyList = logisticsDao.companyDetails();
-		
 		List<DropDown> companyDropDownList= new ArrayList<DropDown>();
 		for(String company:companyList) {
 			if(company != null && !company.isEmpty()) {
@@ -452,7 +492,6 @@ public class LogisticsServiceImpl implements LogisticsService{
 				companyDropDownList.add(dropDownVaL);
 			}
 		}
-		
 		return companyDropDownList;
 	}
 
@@ -541,6 +580,30 @@ public class LogisticsServiceImpl implements LogisticsService{
 			}
 		}
 		return level1DropDownList;
+	}
+
+	@Override
+	public String contactUs(String email, String messageData, String name, String subject) {
+		final String fromEmail = "support@jpdglobal.com.au";
+		final String password = "Cow33491";
+		final String toEmail = "support@jpdglobal.com.au";
+		
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "outlook.office365.com"); //SMTP Host
+		props.put("mail.smtp.port", "587"); //TLS Port
+		props.put("mail.smtp.auth", "true"); //enable authentication
+		props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
+		
+		Authenticator auth = new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(fromEmail, password);
+			}
+		};
+		
+		Session session = Session.getInstance(props, auth);
+		emailUtil.sendEmail(session, email, toEmail, name, messageData, subject);
+		emailUtil.senderEmail(session, email, toEmail, name, subject);
+		return null;
 	}
 
 }

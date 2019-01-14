@@ -49,4 +49,6 @@ public interface LogisticsService {
 
 	public List<DropDown> fetchMgrUserName();
 
+	public String contactUs(String email, String message, String name, String subject);
+
 }

@@ -31,7 +31,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 			 								@Param("passWord") String passWord, @Param("legalName") String legalName, 
 			 								@Param("ManagerName") String ManagerName, @Param("updatedTime") Timestamp updatedTime);
 	 
-	 @Query("SELECT distinct t.legalName FROM User t where t.username is not null") 
+	 @Query("SELECT distinct t.legalName FROM User t where t.username is null") 
 	 List<String> fetchCompanyName();
 	 
 	 @Query("SELECT t.userCode FROM User t where t.mgrUsername = :managerName") 
@@ -51,5 +51,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
 	 @Query("SELECT distinct(t.username) FROM User t where accessLevel='level 1' ") 
 	 List<String> fetchManagerUserName();
+	 
+	 @Query("SELECT distinct(t.emailAddr) FROM User t where t.legalName=:legalName") 
+	 String getEmailAddress(@Param("legalName") String legalName);
 	 
 }
